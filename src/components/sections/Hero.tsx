@@ -87,7 +87,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-y-0 right-6 hidden flex-col items-end justify-between py-32 lg:flex lg:right-10"
       >
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
-          {BRAND.orders.toLocaleString()}+ заказов
+          {BRAND.orders.toLocaleString("en-US")}+ заказов
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted [writing-mode:vertical-rl]">
           rating · {BRAND.rating}
@@ -210,7 +210,7 @@ export function Hero() {
           {[
             { k: "Площадка", v: "FunPay · #9159608" },
             { k: "Рейтинг", v: `${BRAND.rating} / 5.00` },
-            { k: "Сделок", v: `${BRAND.orders.toLocaleString()}+` },
+            { k: "Сделок", v: `${BRAND.orders.toLocaleString("en-US")}+` },
             { k: "Бриф", v: "AI · 24/7" },
           ].map((m) => (
             <div key={m.k} className="flex flex-col gap-1">
