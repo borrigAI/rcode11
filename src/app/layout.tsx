@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: `%s — ${BRAND.name}`,
   },
   description:
-    "Rcode11 — премиальные аватарки, баннеры, логотипы, превью и карточки товаров. Сделка через FunPay. AI-брифинг 24/7. 1000+ заказов, 750+ отзывов, рейтинг 4.97.",
+    "Rcode11 — премиальный статический дизайн на FunPay: аватарки, баннеры, логотипы, превью, карточки товаров и лендинги. AI-брифинг 24/7 за 3–5 минут. 5.0 рейтинг, 750+ отзывов, 1000+ заказов.",
   keywords: [
     "Rcode11",
     "аватарки",
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
     "Ozon карточки",
     "FunPay дизайнер",
     "Twitch баннер",
-    "Discord айдентика",
-    "Telegram оформление",
+    "лендинг на заказ",
+    "дизайнер FunPay",
     "брендинг для стримеров",
     "premium design",
   ],
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${BRAND.name} — ${BRAND.tagline}`,
     description:
-      "Аватарки, баннеры, логотипы, превью, карточки товаров. AI-брифинг 24/7. FunPay-гарантия.",
+      "Статический дизайн на FunPay: аватарки, баннеры, логотипы, превью, карточки товаров и лендинги. AI-брифинг 24/7. Лоты от ₽99.",
     url: `https://${BRAND.domain}`,
     siteName: BRAND.name,
     locale: "ru_RU",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${BRAND.name} — ${BRAND.tagline}`,
     description:
-      "Аватарки, баннеры, логотипы, превью, карточки товаров. AI-брифинг 24/7.",
+      "Статический дизайн на FunPay: визуал, который выглядит дороже лота. AI-брифинг 24/7.",
   },
   robots: {
     index: true,

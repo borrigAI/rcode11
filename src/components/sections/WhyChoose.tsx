@@ -24,19 +24,19 @@ export function WhyChoose() {
                 [07] Почему Rcode11
               </span>
               <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-7xl">
-                Биржа за 500₽
+                Лучший статический
                 <br />
-                и
+                дизайн на
                 <br />
-                <span className="text-gradient-gold">Rcode11.</span>
+                <span className="text-gradient-gold">FunPay.</span>
               </h2>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="max-w-md text-mist md:ml-auto md:text-right">
-              Две карточки товара в одной категории. Одна — из Canva за вечер и 500₽.
-              Вторая — с AI-брифингом, концептом, ревизиями и FunPay-гарантией. Разница в CTR
-              видна в первые 24 часа после выхода.
+              На FunPay хватает дешёвого дизайна. Моя задача — дать покупателю редкое сочетание:
+              вход от ₽99, скорость до суток и визуал, который уже на первом экране выглядит
+              сильнее большинства лотов на площадке.
             </p>
           </Reveal>
         </div>
@@ -50,7 +50,7 @@ export function WhyChoose() {
                   Вариант A
                 </span>
                 <span className="rounded-full border border-line/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-mist/70">
-                  бюджет 50$
+                  вход ₽99–200
                 </span>
               </div>
               <h3 className="font-display text-3xl text-mist">
@@ -77,7 +77,7 @@ export function WhyChoose() {
                   Вариант B
                 </span>
                 <span className="rounded-full border border-gold/60 bg-gold/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow">
-                  Премиум
+                  Лучший выбор
                 </span>
               </div>
               <h3 className="relative font-display text-3xl text-gradient-bone">

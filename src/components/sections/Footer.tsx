@@ -3,7 +3,7 @@ import { BRAND, NAV_LINKS } from "@/lib/data";
 
 export function Footer() {
   return (
-    <footer className="relative isolate overflow-hidden border-t border-line/70 bg-obsidian py-14 md:py-16">
+    <footer className="relative isolate overflow-hidden bg-obsidian py-14 md:py-16">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-6 lg:px-12">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="flex flex-col gap-5">
@@ -29,6 +29,7 @@ export function Footer() {
               { label: "Логотипы", href: "#portfolio" },
               { label: "Превью YouTube", href: "#portfolio" },
               { label: "Карточки товаров", href: "#portfolio" },
+              { label: "Лендинги", href: "#services" },
             ]}
           />
 
@@ -36,7 +37,7 @@ export function Footer() {
             title="Контакты"
             items={[
               { label: "FunPay · заказ", href: BRAND.funpay },
-              { label: BRAND.telegramHandle, href: BRAND.telegram },
+              { label: "Рабочее время · 05:00–17:00 МСК", href: BRAND.funpay },
               { label: BRAND.email, href: `mailto:${BRAND.email}` },
             ]}
           />

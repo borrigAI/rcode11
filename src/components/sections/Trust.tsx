@@ -9,9 +9,9 @@ export function Trust() {
     <section
       id="trust"
       aria-label="Trust"
-      className="relative isolate overflow-hidden border-y border-line/60 bg-obsidian py-24 md:py-32"
+      className="relative isolate overflow-hidden bg-obsidian py-24 md:py-32"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.25] mask-radial-center" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.18] mask-radial-center" />
       <div aria-hidden className="absolute -top-32 left-1/2 h-96 w-[60rem] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl" />
 
       <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
@@ -22,39 +22,39 @@ export function Trust() {
                 [02] Доверие
               </span>
               <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-6xl">
-                Два года.
+                5.0 на FunPay.
                 <br />
-                <span className="text-gradient-gold">Тысяча сделок.</span>
+                <span className="text-gradient-gold">Быстро. Сильно.</span>
                 <br />
-                4.97 на FunPay.
+                Без лишних слов.
               </h2>
               <p className="max-w-md text-mist">
-                Один аккаунт без обнуления, 750+ верифицированных отзывов и репутация,
-                которая собиралась 2 года. Возвраты бывают — это рабочая ситуация: доделываем
-                или возвращаем деньги через FunPay. Поэтому повторных клиентов больше, чем разовых.
+                1000+ заказов, 750+ отзывов и один живой аккаунт на FunPay. Если пишете в моё
+                рабочее время — с 05:00 до 17:00 по МСК — часто отдаю готовую работу в течение
+                3 часов. Даже при очереди ориентир остаётся в пределах суток.
               </p>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line/70 bg-line/40 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {STATS.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.08} className="contents">
-                <div className="group relative flex flex-col justify-between gap-6 bg-graphite p-7 transition-colors duration-500 hover:bg-elevated md:p-9">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted">
-                    0{i + 1} /
-                  </span>
-                  <div>
+              <Reveal key={s.label} delay={i * 0.08}>
+                <div className="group relative h-full overflow-hidden rounded-[28px] border border-line/70 bg-gradient-to-br from-graphite to-[#0d0d0d] p-7 transition-colors duration-500 hover:border-gold/40 hover:bg-elevated md:p-8">
+                  <div aria-hidden className="absolute inset-0 bg-noise opacity-[0.05] mix-blend-overlay" />
+                  <div className="relative flex h-full flex-col gap-5">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted">
+                      0{i + 1} /
+                    </span>
                     <Counter
                       to={s.value}
                       suffix={s.suffix}
-                      className="font-display text-[clamp(3rem,7vw,5.5rem)] font-light leading-none tracking-[-0.04em] text-gradient-gold"
+                      className="font-display text-[clamp(2.7rem,6vw,4.7rem)] font-light leading-none tracking-[-0.045em] text-gradient-gold"
                     />
+                    <div className="mt-auto flex flex-col gap-2">
+                      <span className="text-base leading-tight font-medium text-bone">{s.label}</span>
+                      <span className="text-sm leading-snug text-muted">{s.caption}</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-sm font-medium text-bone">{s.label}</span>
-                    <span className="text-xs text-muted">{s.caption}</span>
-                  </div>
-                  <span className="absolute right-0 top-0 h-12 w-px bg-gradient-to-b from-gold/70 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 </div>
               </Reveal>
             ))}
@@ -66,11 +66,11 @@ export function Trust() {
             <div className="flex items-center gap-3">
               <Stars />
               <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted">
-                4.97 · средний рейтинг FunPay (верифицированный)
+                5.0 · актуальный рейтинг FunPay
               </span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 opacity-80">
-              {["FunPay", "Telegram", "Discord", "Twitch", "YouTube", "Wildberries"].map(
+              {["FunPay", "Лоты от ₽99", "3 часа в онлайне", "до 24 часов с очередью", "YouTube", "Лендинги"].map(
                 (label) => (
                   <span
                     key={label}

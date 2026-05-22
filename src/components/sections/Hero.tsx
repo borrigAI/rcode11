@@ -105,7 +105,7 @@ export function Hero() {
           <span className="inline-flex items-center gap-2 rounded-full border border-bone/15 bg-white/[0.02] px-2.5 py-1 backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-gold-glow" />
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/70">
-              Премиум-студия · FunPay 4.97★
+              Премиум-студия · FunPay 5.0★
             </span>
           </span>
           <a
@@ -117,7 +117,7 @@ export function Hero() {
               <span className="relative inline-block h-2 w-2 rounded-full bg-gold-glow" />
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow">
-              AI-брифинг · 24/7 · ответ за 60 сек
+              AI-брифинг · 24/7 · 3–5 минут
             </span>
           </a>
         </motion.div>
@@ -149,9 +149,9 @@ export function Hero() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
               className="mt-8 max-w-[44ch] text-balance text-base leading-relaxed text-mist md:text-lg"
             >
-              Премиальные аватарки, баннеры, логотипы, превью и карточки товаров.
-              Сделка — через FunPay. Бриф — через AI-ассистента. 1000+ заказов и
-              рейтинг 4.97 на одной площадке.
+              Аватарки, баннеры, логотипы, превью, карточки товаров и лендинги.
+              Заказ — только через FunPay. Бриф занимает 3–5 минут, а в рабочее время
+              готовую статическую работу часто отдаю уже через 3 часа.
             </motion.p>
 
             <motion.div
@@ -211,7 +211,7 @@ export function Hero() {
             { k: "Площадка", v: "FunPay · #9159608" },
             { k: "Рейтинг", v: `${BRAND.rating} / 5.00` },
             { k: "Сделок", v: `${BRAND.orders.toLocaleString("en-US")}+` },
-            { k: "Бриф", v: "AI · 24/7" },
+            { k: "Бриф", v: "AI · 3–5 минут" },
           ].map((m) => (
             <div key={m.k} className="flex flex-col gap-1">
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
@@ -267,14 +267,14 @@ function OfferCard() {
           Что заказывают
         </p>
         <ul className="space-y-3 font-display text-2xl font-light leading-none text-bone">
-          {["Аватарка", "Баннер", "Логопак", "Превью", "Карточка товара"].map((label, i) => (
+          {["Аватарка", "Баннер", "Логопак", "Превью", "Лендинг"].map((label, i) => (
             <li key={label} className="flex items-center gap-3">
               <span className="font-mono text-[10px] text-gold-glow">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span>{label}</span>
               <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.25em] text-bone/45">
-                {["1 день", "2 дня", "3-5 дней", "1 день", "2-3 дня"][i]}
+                {["3 часа", "до 24 часов", "1 день", "3 часа", "2–3 дня"][i]}
               </span>
             </li>
           ))}

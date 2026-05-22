@@ -163,6 +163,44 @@ body {
 .h-screen-svh { height: 100svh; }
 .min-h-screen-svh { min-height: 100svh; }
 
+/* Seamless section transitions — soft fade at top and bottom of each section.
+   Sits above the section's own background but below positioned content
+   (z-index: -1 inside the section's `isolate` stacking context). */
+main > section + section { margin-top: -1px; }
+main > section::before,
+main > section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 9rem;
+  pointer-events: none;
+  z-index: -1;
+}
+main > section::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(5, 5, 5, 0.92), rgba(5, 5, 5, 0));
+}
+main > section::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(5, 5, 5, 0.92), rgba(5, 5, 5, 0));
+}
+main > section:first-child::before { display: none; }
+main > section:last-child::after { display: none; }
+
+/* Footer mirrors the same fade-in seam. */
+body > footer { position: relative; margin-top: -1px; }
+body > footer::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 9rem;
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgba(5, 5, 5, 0.92), rgba(5, 5, 5, 0));
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

@@ -15,7 +15,7 @@ export function Process() {
       id="process"
       aria-label="Process"
       ref={ref}
-      className="relative isolate overflow-hidden border-y border-line/60 bg-obsidian py-28 md:py-40"
+      className="relative isolate overflow-hidden bg-obsidian py-28 md:py-40"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.16] mask-radial-center" />
       <div aria-hidden className="absolute -left-40 top-1/3 h-[40rem] w-[40rem] rounded-full bg-gold/8 blur-3xl" />

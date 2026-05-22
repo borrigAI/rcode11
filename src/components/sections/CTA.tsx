@@ -18,7 +18,7 @@ export function CTA() {
       id="contact"
       aria-label="Contact"
       ref={ref}
-      className="relative isolate overflow-hidden border-t border-line/60 bg-ink py-32 md:py-44"
+      className="relative isolate overflow-hidden bg-ink py-32 md:py-44"
     >
       <motion.div
         aria-hidden
@@ -47,28 +47,28 @@ export function CTA() {
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-6 font-display text-[clamp(2.6rem,8.5vw,7.5rem)] font-medium leading-[0.88] tracking-[-0.04em] text-bone">
-              Откройте
+              Заберите лот,
               <br />
-              сделку на
+              который выглядит
               <br />
-              <span className="text-gradient-gold">FunPay.</span>
+              <span className="text-gradient-gold">дороже своей цены.</span>
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-10 max-w-xl text-lg text-mist">
-              Открываете сделку на FunPay — деньги ложатся на площадку, я не получаю их,
-              пока вы не подтвердили результат. AI-брифинг за 60 секунд, первый концепт
-              — в течение 24 часов. На этот квартал свободны 2 слота.
+            <p className="mt-10 max-w-2xl text-lg text-mist">
+              Если нужен статический дизайн, который на FunPay выглядит сильнее большинства
+              конкурентов, не тяните. Лоты стартуют от ₽99 для набора портфолио, AI-брифинг
+              занимает 3–5 минут, а в рабочее время готовую работу часто отдаю уже через 3 часа.
             </p>
           </Reveal>
           <Reveal delay={0.25}>
             <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row">
               <PremiumButton href={BRAND.funpay} variant="primary">
-                Заказать на FunPay
+                Открыть лот на FunPay
                 <span aria-hidden>↗</span>
               </PremiumButton>
-              <PremiumButton href={BRAND.telegram} variant="outline">
-                Написать в Telegram
+              <PremiumButton href="#portfolio" variant="outline">
+                Сначала посмотреть кейсы
                 <span aria-hidden>→</span>
               </PremiumButton>
             </div>
@@ -77,9 +77,9 @@ export function CTA() {
           <Reveal delay={0.35}>
             <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3">
               {[
-                { k: "FunPay", v: "Заказ за 5 минут", href: BRAND.funpay },
-                { k: "AI-брифинг", v: "24/7 · 60 сек", href: BRAND.funpay },
-                { k: "Telegram", v: BRAND.telegramHandle, href: BRAND.telegram },
+                { k: "FunPay", v: "Лоты от ₽99", href: BRAND.funpay },
+                { k: "AI-брифинг", v: "24/7 · 3–5 минут", href: BRAND.funpay },
+                { k: "Срок", v: "часто 3 часа · максимум сутки", href: BRAND.funpay },
               ].map((c) => (
                 <a
                   key={c.k}
