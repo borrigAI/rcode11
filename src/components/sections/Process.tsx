@@ -15,7 +15,7 @@ export function Process() {
       id="process"
       aria-label="Process"
       ref={ref}
-      className="relative isolate overflow-hidden bg-obsidian py-28 md:py-40"
+      className="relative isolate overflow-clip bg-obsidian py-28 md:py-40"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.16] mask-radial-center" />
       <div aria-hidden className="absolute -left-40 top-1/3 h-[40rem] w-[40rem] rounded-full bg-gold/8 blur-3xl" />
@@ -38,16 +38,29 @@ export function Process() {
                 выдаю один внятный концепт вместо пяти «вариантов на выбор».
               </p>
 
-              <div className="mt-10 hidden flex-col gap-2 lg:flex">
-                <div className="flex items-center gap-3">
-                  <span className="h-px w-10 bg-gold/60" />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mist">
-                    Средний срок сдачи
+              <div className="mt-10 hidden flex-col gap-4 lg:flex">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-3">
+                    <span className="h-px w-10 bg-gold/60" />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mist">
+                      Средний срок сдачи
+                    </span>
+                  </div>
+                  <span className="font-display text-3xl text-gradient-bone">
+                    статика — ±4 часа
                   </span>
                 </div>
-                <span className="font-display text-3xl text-gradient-bone">
-                  7–21 день
-                </span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-3">
+                    <span className="h-px w-10 bg-gold/40" />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
+                      Лендинги и Telegram-боты
+                    </span>
+                  </div>
+                  <span className="font-display text-2xl text-mist">
+                    3–5 рабочих дней
+                  </span>
+                </div>
               </div>
             </div>
           </Reveal>

@@ -22,28 +22,27 @@ export function Services() {
                 [03] Услуги
               </span>
               <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-7xl">
-                Пять направлений.
+                Что я
                 <br />
-                <span className="text-gradient-gold">Без «дизайна вообще».</span>
+                <span className="text-gradient-gold">делаю.</span>
               </h2>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="max-w-md text-mist md:ml-auto md:text-right">
-              Делаю только то, в чём наработал систему и стиль. Каждое направление —
-              со своим воркфлоу, форматами под площадку и опытом в сотнях сданных
-              сделок на FunPay.
+              Узкий набор направлений, в каждом из которых наработана стилистика, шаблоны
+              под площадку и сотни закрытых сделок на FunPay. Никакого «дизайна на всё подряд».
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-[28px] border border-line/70 bg-line/40 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s, i) => (
             <Reveal key={s.n} delay={i * 0.06} className="contents">
               <motion.article
                 whileHover={{ y: -4 }}
                 transition={{ type: "spring", stiffness: 220, damping: 24 }}
-                className="group relative flex flex-col justify-between gap-6 bg-graphite/70 p-7 backdrop-blur transition-colors duration-500 hover:bg-elevated md:p-8"
+                className="group relative flex flex-col justify-between gap-6 rounded-[28px] border border-line/70 bg-graphite/70 p-7 backdrop-blur transition-colors duration-500 hover:border-gold/40 hover:bg-elevated md:p-8"
               >
                 <div aria-hidden className="pointer-events-none absolute inset-0 bg-noise opacity-[0.05] mix-blend-overlay" />
                 <div aria-hidden className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-gold/8 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

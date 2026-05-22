@@ -111,21 +111,21 @@ export function WhyChoose() {
           </div>
         </Reveal>
 
-        {/* Why-points grid */}
-        <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-line/70 bg-line/40 md:grid-cols-2 lg:grid-cols-3">
+        {/* Why-points grid — четыре коротких пункта */}
+        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {WHY_POINTS.map((w, i) => (
-            <Reveal key={w.title} delay={i * 0.05}>
-              <article className="group relative flex h-full flex-col gap-4 bg-graphite p-7 transition-colors duration-500 hover:bg-elevated md:p-8">
+            <Reveal key={w.title} delay={i * 0.06}>
+              <article className="group relative flex h-full flex-col gap-3 rounded-3xl border border-line/70 bg-graphite/70 p-6 transition-colors duration-500 hover:border-gold/40 hover:bg-elevated">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold/80">
                     0{i + 1}
                   </span>
-                  <span className="h-px w-12 bg-gradient-to-r from-transparent via-gold/40 to-transparent transition-all duration-500 group-hover:via-gold" />
+                  <span className="h-px w-10 bg-gradient-to-r from-transparent via-gold/40 to-transparent transition-all duration-500 group-hover:via-gold" />
                 </div>
-                <h3 className="font-display text-2xl font-light leading-[1.1] tracking-[-0.01em] text-bone">
+                <h3 className="font-display text-xl font-medium leading-[1.15] tracking-[-0.01em] text-bone">
                   {w.title}
                 </h3>
-                <p className="text-mist/90">{w.body}</p>
+                <p className="text-sm leading-relaxed text-mist/85">{w.body}</p>
               </article>
             </Reveal>
           ))}

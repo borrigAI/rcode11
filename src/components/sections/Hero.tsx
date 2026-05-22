@@ -149,9 +149,9 @@ export function Hero() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
               className="mt-8 max-w-[44ch] text-balance text-base leading-relaxed text-mist md:text-lg"
             >
-              Аватарки, баннеры, логотипы, превью, карточки товаров и лендинги.
-              Заказ — только через FunPay. Бриф занимает 3–5 минут, а в рабочее время
-              готовую статическую работу часто отдаю уже через 3 часа.
+              Аватарки, баннеры, логотипы, превью, карточки товаров, лендинги и Telegram-боты.
+              Заказ — только через FunPay. Бриф занимает 3–5 минут, средний срок
+              сдачи статики — около 4 часов. Лендинги и боты — 3–5 рабочих дней.
             </motion.p>
 
             <motion.div
@@ -202,26 +202,35 @@ export function Hero() {
           </motion.aside>
         </motion.div>
 
-        {/* Bottom marquee strip */}
+        {/* Bottom panel — clean closed rectangle on mobile and desktop */}
         <motion.div
           style={{ y: subY, opacity: subOpacity }}
-          className="mt-auto grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line/60 pt-8 md:grid-cols-4"
+          className="mt-auto overflow-hidden rounded-2xl border border-line/70 bg-graphite/40 backdrop-blur-md"
         >
-          {[
-            { k: "Площадка", v: "FunPay · #9159608" },
-            { k: "Рейтинг", v: `${BRAND.rating} / 5.00` },
-            { k: "Сделок", v: `${BRAND.orders.toLocaleString("en-US")}+` },
-            { k: "Бриф", v: "AI · 3–5 минут" },
-          ].map((m) => (
-            <div key={m.k} className="flex flex-col gap-1">
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
-                {m.k}
-              </span>
-              <span className="font-display text-base leading-tight text-bone">
-                {m.v}
-              </span>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {[
+              { k: "Площадка", v: "FunPay · #9159608" },
+              { k: "Рейтинг", v: `${BRAND.rating} / 5.00` },
+              { k: "Сделок", v: `${BRAND.orders.toLocaleString("en-US")}+` },
+              { k: "Бриф", v: "AI · 3–5 минут" },
+            ].map((m, i) => (
+              <div
+                key={m.k}
+                className={`flex flex-col gap-1.5 px-5 py-4 md:px-6 md:py-5 ${
+                  i % 2 === 1 ? "border-l border-line/60" : ""
+                } ${i < 2 ? "border-b border-line/60 md:border-b-0" : ""} ${
+                  i === 2 ? "md:border-l md:border-line/60" : ""
+                } ${i === 3 ? "md:border-l md:border-line/60" : ""}`}
+              >
+                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
+                  {m.k}
+                </span>
+                <span className="truncate font-display text-base leading-tight text-bone md:text-lg">
+                  {m.v}
+                </span>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
 
@@ -274,7 +283,7 @@ function OfferCard() {
               </span>
               <span>{label}</span>
               <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.25em] text-bone/45">
-                {["3 часа", "до 24 часов", "1 день", "3 часа", "2–3 дня"][i]}
+                {["~4 часа", "~4 часа", "до 24 ч", "~4 часа", "3–5 дней"][i]}
               </span>
             </li>
           ))}
