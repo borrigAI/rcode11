@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { PortfolioItem } from "@/lib/data";
 
@@ -49,7 +50,13 @@ const accentMap = {
   },
 } as const;
 
-export function ProjectVisual({ item }: { item: PortfolioItem }) {
+export function ProjectVisual({
+  item,
+  mode = "card",
+}: {
+  item: PortfolioItem;
+  mode?: "card" | "modal";
+}) {
   const a = accentMap[item.accent];
 
   return (
@@ -71,11 +78,19 @@ export function ProjectVisual({ item }: { item: PortfolioItem }) {
         }}
       />
 
-      {item.kind === "avatar" && <AvatarMock item={item} accent={a} />}
-      {item.kind === "banner" && <BannerMock item={item} accent={a} />}
-      {item.kind === "logo" && <LogoMock item={item} accent={a} />}
-      {item.kind === "thumbnail" && <ThumbnailMock item={item} accent={a} />}
-      {item.kind === "product-card" && <ProductCardMock item={item} accent={a} />}
+      {item.image ? (
+        <RealImage item={item} mode={mode} />
+      ) : (
+        <>
+          {item.kind === "avatar" && <AvatarMock item={item} accent={a} />}
+          {item.kind === "banner" && <BannerMock item={item} accent={a} />}
+          {item.kind === "logo" && <LogoMock item={item} accent={a} />}
+          {item.kind === "thumbnail" && <ThumbnailMock item={item} accent={a} />}
+          {item.kind === "product-card" && (
+            <ProductCardMock item={item} accent={a} />
+          )}
+        </>
+      )}
 
       <div className="absolute left-5 top-5 flex items-center gap-2">
         <span
@@ -99,6 +114,44 @@ export function ProjectVisual({ item }: { item: PortfolioItem }) {
 }
 
 type AccentTokens = (typeof accentMap)[keyof typeof accentMap];
+
+/* ---------- REAL IMAGE (real work sample from /public/portfolio) ---------- */
+function RealImage({
+  item,
+  mode,
+}: {
+  item: PortfolioItem;
+  mode: "card" | "modal";
+}) {
+  if (!item.image) return null;
+  const isCard = mode === "card";
+  return (
+    <div className="absolute inset-0">
+      <Image
+        src={item.image.src}
+        alt={item.image.alt}
+        fill
+        sizes={
+          isCard
+            ? "(min-width: 1024px) 66vw, (min-width: 640px) 50vw, 100vw"
+            : "(min-width: 1024px) 60vw, 100vw"
+        }
+        style={{
+          objectFit: isCard ? "cover" : "contain",
+          objectPosition: item.image.objectPosition ?? "center",
+        }}
+        className="select-none"
+        priority={false}
+      />
+      {isCard && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/0 to-ink/30"
+        />
+      )}
+    </div>
+  );
+}
 
 /* ---------- AVATAR ---------- */
 function AvatarMock({ item, accent }: { item: PortfolioItem; accent: AccentTokens }) {

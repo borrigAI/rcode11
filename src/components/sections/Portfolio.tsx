@@ -87,7 +87,7 @@ export function Portfolio() {
 
         <div
           className={cn(
-            "mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-12",
+            "mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-12 lg:grid-flow-dense",
             "auto-rows-[22rem] lg:auto-rows-[20rem]"
           )}
         >
@@ -185,7 +185,7 @@ function CaseModal({
             className="relative z-10 grid w-full max-w-6xl grid-cols-1 overflow-hidden rounded-[32px] border border-line/80 bg-graphite md:grid-cols-[1.4fr_1fr]"
           >
             <div className="relative aspect-[16/10] w-full md:aspect-auto md:min-h-[520px]">
-              <ProjectVisual item={item} />
+              <ProjectVisual item={item} mode="modal" />
             </div>
             <div className="flex flex-col gap-6 p-8 md:p-10">
               <div className="flex items-center justify-between">
