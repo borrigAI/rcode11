@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/sections/Navbar";
 import { Hero } from "@/components/sections/Hero";
 import { Trust } from "@/components/sections/Trust";
+import { Services } from "@/components/sections/Services";
 import { Portfolio } from "@/components/sections/Portfolio";
 import { Process } from "@/components/sections/Process";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -21,6 +22,7 @@ export default function Home() {
       <main className="relative flex flex-1 flex-col">
         <Hero />
         <Trust />
+        <Services />
         <Portfolio />
         <Process />
         <Testimonials />

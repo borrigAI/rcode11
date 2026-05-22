@@ -42,22 +42,23 @@ export function CTA() {
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <Reveal>
             <span className="font-mono text-[10px] uppercase tracking-[0.45em] text-gold">
-              [07] Финал
+              [08] Финал
             </span>
           </Reveal>
           <Reveal delay={0.05}>
-            <h2 className="mt-6 font-display text-[clamp(2.6rem,8.5vw,7.5rem)] font-light leading-[0.9] tracking-[-0.03em] text-bone">
-              Ваш проект
+            <h2 className="mt-6 font-display text-[clamp(2.6rem,8.5vw,7.5rem)] font-medium leading-[0.88] tracking-[-0.04em] text-bone">
+              Откройте
               <br />
-              заслуживает
+              сделку на
               <br />
-              <span className="italic text-gradient-gold">премиального восприятия.</span>
+              <span className="text-gradient-gold">FunPay.</span>
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-10 max-w-xl text-lg text-mist">
-              Два свободных слота этот квартал. Оставьте бриф через FunPay или напишите AI-ассистенту —
-              ответ вы получите за 60 секунд. Сам бриф занимает пять минут.
+              Открываете сделку на FunPay — деньги ложатся на площадку, я не получаю их,
+              пока вы не подтвердили результат. AI-брифинг за 60 секунд, первый концепт
+              — в течение 24 часов. На этот квартал свободны 2 слота.
             </p>
           </Reveal>
           <Reveal delay={0.25}>

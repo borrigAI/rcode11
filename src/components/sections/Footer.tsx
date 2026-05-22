@@ -24,11 +24,11 @@ export function Footer() {
           <FooterCol
             title="Практика"
             items={[
-              { label: "Превью YouTube", href: "#portfolio" },
-              { label: "Киберспорт и гейминг", href: "#portfolio" },
+              { label: "Аватарки", href: "#portfolio" },
+              { label: "Баннеры", href: "#portfolio" },
               { label: "Логотипы", href: "#portfolio" },
-              { label: "Discord · Telegram", href: "#portfolio" },
-              { label: "Баннеры и Key Art", href: "#portfolio" },
+              { label: "Превью YouTube", href: "#portfolio" },
+              { label: "Карточки товаров", href: "#portfolio" },
             ]}
           />
 

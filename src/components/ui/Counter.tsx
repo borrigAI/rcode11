@@ -32,8 +32,9 @@ export function Counter({ to, from = 0, duration = 2.2, suffix = "", prefix = ""
     return () => cancelAnimationFrame(raf);
   }, [inView, to, from, duration]);
 
-  const rendered =
-    Number.isInteger(to) ? Math.round(value).toLocaleString("en-US") : value.toFixed(1);
+  const rendered = Number.isInteger(to)
+    ? Math.round(value).toLocaleString("en-US")
+    : value.toFixed(2);
 
   return (
     <motion.span

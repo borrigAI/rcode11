@@ -43,12 +43,12 @@ export function Portfolio() {
           <Reveal>
             <div className="flex flex-col gap-5">
               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
-                [03] Избранные работы
+                [04] Избранные работы
               </span>
-              <h2 className="font-display text-5xl font-light leading-[0.95] tracking-[-0.02em] text-bone md:text-7xl">
-                Курируемый <span className="italic text-gradient-gold">архив</span>
+              <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-7xl">
+                Архив сданных
                 <br />
-                премиальных задач.
+                <span className="text-gradient-gold">FunPay-сделок.</span>
               </h2>
             </div>
           </Reveal>

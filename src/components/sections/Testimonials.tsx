@@ -22,21 +22,19 @@ export function Testimonials() {
           <Reveal>
             <div className="flex flex-col gap-5">
               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
-                [05] Отзывы
+                [06] Отзывы
               </span>
-              <h2 className="font-display text-5xl font-light leading-[0.95] tracking-[-0.02em] text-bone md:text-7xl">
-                Слова от тех,
+              <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-7xl">
+                Отзывы
                 <br />
-                <span className="italic text-gradient-gold">кто оплачивает</span>
-                <br />
-                счёт.
+                <span className="text-gradient-gold">с FunPay.</span>
               </h2>
             </div>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="max-w-md text-mist md:ml-auto md:text-right">
-              Все отзывы верифицированы через FunPay, Kwork, Behance и прямые каналы клиентов.
-              Имена скрыты только там, где это закреплено в договоре.
+              750+ верифицированных отзывов на FunPay и в Telegram. Выписки ниже —
+              от реальных клиентов, которые вернулись за второй, третьей и десятой работой.
             </p>
           </Reveal>
         </div>

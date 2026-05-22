@@ -21,24 +21,22 @@ export function WhyChoose() {
           <Reveal>
             <div className="flex flex-col gap-5">
               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
-                [06] Почему Rcode11
+                [07] Почему Rcode11
               </span>
-              <h2 className="font-display text-5xl font-light leading-[0.95] tracking-[-0.02em] text-bone md:text-7xl">
-                Разница
+              <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-7xl">
+                Биржа за 500₽
                 <br />
-                между
+                и
                 <br />
-                <span className="italic text-gradient-gold">дешёвым</span> и
-                {" "}
-                <span className="italic text-gradient-gold">продуманным.</span>
+                <span className="text-gradient-gold">Rcode11.</span>
               </h2>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="max-w-md text-mist md:ml-auto md:text-right">
-              Рынок перенасыщен дешёвыми исполнителями. Rcode11 — это противоположность
-              гонки по цене на маркетплейсах. Работа сделана так, чтобы это было видно
-              в первые же секунды.
+              Две карточки товара в одной категории. Одна — из Canva за вечер и 500₽.
+              Вторая — с AI-брифингом, концептом, ревизиями и FunPay-гарантией. Разница в CTR
+              видна в первые 24 часа после выхода.
             </p>
           </Reveal>
         </div>

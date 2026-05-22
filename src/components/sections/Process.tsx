@@ -25,17 +25,17 @@ export function Process() {
           <Reveal>
             <div className="lg:sticky lg:top-32">
               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
-                [04] Процесс
+                [05] Процесс
               </span>
-              <h2 className="mt-4 font-display text-5xl font-light leading-[0.95] tracking-[-0.02em] text-bone md:text-6xl">
+              <h2 className="mt-4 font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-6xl">
                 Шесть этапов.
                 <br />
-                <span className="italic text-gradient-gold">Ноль срезов.</span>
+                <span className="text-gradient-gold">Без срезов.</span>
               </h2>
               <p className="mt-6 max-w-md text-mist">
-                Консультативный воркфлоу вокруг ясности, вкуса и фиксированных сроков.
-                Старт — с AI-брифинга, который работает круглосуточно и принимает задачу
-                в момент, когда у вас возникла идея.
+                Старт — с AI-брифинга, который работает круглосуточно. Вы пишете
+                задачу в любое время, ассистент собирает вводные, я подключаюсь и
+                выдаю один внятный концепт вместо пяти «вариантов на выбор».
               </p>
 
               <div className="mt-10 hidden flex-col gap-2 lg:flex">

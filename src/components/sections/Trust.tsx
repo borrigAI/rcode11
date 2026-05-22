@@ -21,17 +21,17 @@ export function Trust() {
               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
                 [02] Доверие
               </span>
-              <h2 className="font-display text-5xl font-light leading-[0.95] tracking-[-0.02em] text-bone md:text-6xl">
+              <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-6xl">
                 Два года.
                 <br />
-                <span className="text-gradient-gold italic">Тысяча задач.</span>
+                <span className="text-gradient-gold">Тысяча сделок.</span>
                 <br />
-                Ноль возвратов.
+                4.97 на FunPay.
               </h2>
               <p className="max-w-md text-mist">
-                Rcode11 — это не новичок, экспериментирующий со стилем. Это рабочая студия
-                с верифицированными отзывами на FunPay, повторными клиентами и намеренно
-                небольшим публичным портфолио.
+                Один аккаунт без обнуления, 750+ верифицированных отзывов и репутация,
+                которая собиралась 2 года. Возвраты бывают — это рабочая ситуация: доделываем
+                или возвращаем деньги через FunPay. Поэтому повторных клиентов больше, чем разовых.
               </p>
             </div>
           </Reveal>
@@ -66,11 +66,11 @@ export function Trust() {
             <div className="flex items-center gap-3">
               <Stars />
               <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted">
-                4.97 · средний рейтинг (верифицированный)
+                4.97 · средний рейтинг FunPay (верифицированный)
               </span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 opacity-80">
-              {["FunPay", "Kwork", "Behance", "Telegram", "Discord", "X / Twitter"].map(
+              {["FunPay", "Telegram", "Discord", "Twitch", "YouTube", "Wildberries"].map(
                 (label) => (
                   <span
                     key={label}

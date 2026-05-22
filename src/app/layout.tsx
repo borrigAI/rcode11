@@ -1,26 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Cormorant, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { BRAND } from "@/lib/data";
 
-const sans = Inter({
+const sans = Geist({
   variable: "--font-sans",
-  subsets: ["latin", "cyrillic", "cyrillic-ext"],
-  display: "swap",
-});
-
-const display = Cormorant({
-  variable: "--font-display",
-  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+  subsets: ["latin", "cyrillic", "latin-ext"],
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
 });
 
-const mono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin", "cyrillic", "cyrillic-ext"],
+const display = Geist({
+  variable: "--font-display",
+  subsets: ["latin", "cyrillic", "latin-ext"],
   display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const mono = Geist_Mono({
+  variable: "--font-mono",
+  subsets: ["latin", "cyrillic", "latin-ext"],
+  display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 export const viewport: Viewport = {
@@ -36,18 +37,21 @@ export const metadata: Metadata = {
     template: `%s — ${BRAND.name}`,
   },
   description:
-    "Rcode11 — премиальный визуальный дизайнер. Айдентика, превью YouTube, киберспорт-бренды, Discord и Telegram, баннеры и кинематографичные ключевые арты. AI-брифинг 24/7.",
+    "Rcode11 — премиальные аватарки, баннеры, логотипы, превью и карточки товаров. Сделка через FunPay. AI-брифинг 24/7. 1000+ заказов, 750+ отзывов, рейтинг 4.97.",
   keywords: [
     "Rcode11",
-    "премиальный дизайнер",
-    "превью YouTube",
-    "киберспорт-бренд",
+    "аватарки",
+    "баннеры",
     "логотипы",
-    "Discord-айдентика",
-    "Telegram-айдентика",
-    "брендинг",
+    "превью YouTube",
+    "карточки товаров",
+    "Wildberries дизайн",
+    "Ozon карточки",
     "FunPay дизайнер",
-    "визуальная идентика",
+    "Twitch баннер",
+    "Discord айдентика",
+    "Telegram оформление",
+    "брендинг для стримеров",
     "premium design",
   ],
   authors: [{ name: BRAND.name }],
@@ -55,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${BRAND.name} — ${BRAND.tagline}`,
     description:
-      "Премиальная визуальная идентика, киберспорт-брендинг и кинематографичные превью. AI-брифинг 24/7.",
+      "Аватарки, баннеры, логотипы, превью, карточки товаров. AI-брифинг 24/7. FunPay-гарантия.",
     url: `https://${BRAND.domain}`,
     siteName: BRAND.name,
     locale: "ru_RU",
@@ -65,7 +69,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${BRAND.name} — ${BRAND.tagline}`,
     description:
-      "Премиальная визуальная идентика, киберспорт-брендинг, превью YouTube. AI-брифинг 24/7.",
+      "Аватарки, баннеры, логотипы, превью, карточки товаров. AI-брифинг 24/7.",
   },
   robots: {
     index: true,

@@ -67,8 +67,9 @@ body {
 
 /* Utilities */
 .font-display {
-  font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-feature-settings: "ss01", "liga", "dlig";
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "ss03", "cv11", "liga";
+  letter-spacing: -0.02em;
 }
 
 .text-gradient-gold {

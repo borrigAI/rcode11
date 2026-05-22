@@ -1,13 +1,18 @@
 "use client";
 
-import Image from "next/image";
-import { motion, useMotionTemplate, useMotionValue, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import { useEffect, useRef } from "react";
 import { ParticleField } from "@/components/fx/ParticleField";
-import { FloatingLightStreaks } from "@/components/fx/Backgrounds";
 import { PremiumButton } from "@/components/ui/PremiumButton";
-import { SplitText } from "@/components/ui/SplitText";
-import { BRAND } from "@/lib/data";
+import { BRAND, PORTFOLIO_CATEGORIES } from "@/lib/data";
+
+const CATEGORY_PILLS = PORTFOLIO_CATEGORIES.filter((c) => c !== "Все");
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -15,7 +20,10 @@ export function Hero() {
   const my = useMotionValue(50);
   const bgPos = useMotionTemplate`${mx}% ${my}%`;
 
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
   const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
   const subOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
@@ -25,10 +33,8 @@ export function Hero() {
     const onMove = (e: PointerEvent) => {
       const rect = ref.current?.getBoundingClientRect();
       if (!rect) return;
-      const px = ((e.clientX - rect.left) / rect.width) * 100;
-      const py = ((e.clientY - rect.top) / rect.height) * 100;
-      mx.set(px);
-      my.set(py);
+      mx.set(((e.clientX - rect.left) / rect.width) * 100);
+      my.set(((e.clientY - rect.top) / rect.height) * 100);
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
@@ -40,56 +46,71 @@ export function Hero() {
       ref={ref}
       className="relative isolate min-h-screen-svh w-full overflow-hidden"
     >
-      {/* Layered background */}
+      {/* Layered background — restrained */}
       <div className="absolute inset-0 -z-10 bg-ink" />
-      <FloatingLightStreaks />
       <motion.div
         aria-hidden
         style={{
-          background: useMotionTemplate`radial-gradient(600px circle at ${bgPos}, rgba(233,212,161,0.18), transparent 60%)`,
+          background: useMotionTemplate`radial-gradient(620px circle at ${bgPos}, rgba(201,163,90,0.10), transparent 65%)`,
         }}
-        className="pointer-events-none absolute inset-0 -z-[1] mix-blend-screen"
+        className="pointer-events-none absolute inset-0 -z-[1]"
       />
       <div className="pointer-events-none absolute inset-0 -z-[1]">
-        <ParticleField density={50} className="h-full w-full opacity-90" />
+        <ParticleField density={28} className="h-full w-full opacity-50" />
       </div>
 
-      {/* Side rails */}
-      <div aria-hidden className="pointer-events-none absolute inset-y-0 left-6 hidden flex-col items-start justify-between py-32 lg:flex lg:left-12">
+      {/* Diagonal cut motif echoing the logo */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-[1] overflow-hidden">
+        <div
+          className="absolute -right-40 top-0 h-[140%] w-[60%] origin-top-right"
+          style={{
+            background:
+              "linear-gradient(108deg, transparent 0 38%, rgba(201,163,90,0.06) 38% 39.2%, transparent 39.2% 61%, rgba(201,163,90,0.04) 61% 61.8%, transparent 61.8%)",
+          }}
+        />
+      </div>
+
+      {/* Side rails — minimalized */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-6 hidden flex-col items-start justify-between py-32 lg:flex lg:left-10"
+      >
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
-          [01] Главная
+          [01] — Студия
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted [writing-mode:vertical-rl]">
-          студия · с 2024
+          с 2024 · FunPay 9159608
         </span>
       </div>
-      <div aria-hidden className="pointer-events-none absolute inset-y-0 right-6 hidden flex-col items-end justify-between py-32 lg:flex lg:right-12">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-6 hidden flex-col items-end justify-between py-32 lg:flex lg:right-10"
+      >
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
-          FunPay · верифицирован
+          {BRAND.orders.toLocaleString()}+ заказов
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted [writing-mode:vertical-rl]">
-          {BRAND.orders.toLocaleString()}+ заказов · {BRAND.reviews}+ отзывов
+          rating · {BRAND.rating}
         </span>
       </div>
 
-      <div className="relative mx-auto flex min-h-screen-svh w-full max-w-[1440px] flex-col justify-between px-6 pb-16 pt-36 lg:px-12 lg:pt-40">
-        {/* Top eyebrow */}
+      <div className="relative mx-auto flex min-h-screen-svh w-full max-w-[1440px] flex-col px-6 pb-16 pt-32 lg:px-16 lg:pt-36">
+        {/* Eyebrow row */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          className="flex flex-col items-center justify-center gap-3"
+          className="flex flex-wrap items-center gap-3"
         >
-          <div className="flex items-center justify-center gap-4">
-            <span className="hidden h-px w-16 bg-gradient-to-r from-transparent to-gold/50 md:block" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-gold">
-              ✦ Премиальная визуальная студия ✦
+          <span className="inline-flex items-center gap-2 rounded-full border border-bone/15 bg-white/[0.02] px-2.5 py-1 backdrop-blur">
+            <span className="h-1.5 w-1.5 rounded-full bg-gold-glow" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/70">
+              Премиум-студия · FunPay 4.97★
             </span>
-            <span className="hidden h-px w-16 bg-gradient-to-l from-transparent to-gold/50 md:block" />
-          </div>
+          </span>
           <a
             href={BRAND.funpay}
-            className="group inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/5 px-3 py-1.5 backdrop-blur transition-colors hover:border-gold/70 hover:bg-gold/10"
+            className="group inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/[0.04] px-2.5 py-1 backdrop-blur transition-colors hover:border-gold/70 hover:bg-gold/10"
           >
             <span className="relative inline-flex h-2 w-2">
               <span className="absolute inset-0 animate-ping rounded-full bg-gold/70" />
@@ -101,109 +122,175 @@ export function Hero() {
           </a>
         </motion.div>
 
-        {/* Main title */}
+        {/* Headline */}
         <motion.div
           style={{ y: titleY, opacity: titleOpacity }}
-          className="relative flex flex-1 flex-col items-center justify-center text-center"
+          className="relative mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-[1.5fr_1fr] lg:gap-16"
         >
-          {/* Big mark behind */}
-          <motion.div
-            aria-hidden
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 0.22, scale: 1 }}
-            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center"
+          <div className="relative">
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="font-display font-medium leading-[0.86] tracking-[-0.045em] text-bone"
+              style={{ fontSize: "clamp(3rem, 9.5vw, 9rem)" }}
+            >
+              Дизайн,
+              <br />
+              который
+              <br />
+              <span className="text-gradient-gold">продаёт</span>
+              <span className="text-bone/40"> за вас.</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
+              className="mt-8 max-w-[44ch] text-balance text-base leading-relaxed text-mist md:text-lg"
+            >
+              Премиальные аватарки, баннеры, логотипы, превью и карточки товаров.
+              Сделка — через FunPay. Бриф — через AI-ассистента. 1000+ заказов и
+              рейтинг 4.97 на одной площадке.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.9 }}
+              className="mt-10 flex flex-wrap gap-3"
+            >
+              {CATEGORY_PILLS.map((c) => (
+                <a
+                  key={c}
+                  href="#portfolio"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-bone/12 bg-white/[0.015] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-bone/65 transition-colors hover:border-gold/50 hover:text-gold-glow"
+                >
+                  <span className="h-1 w-1 rounded-full bg-gold/60" />
+                  {c}
+                </a>
+              ))}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.1 }}
+              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            >
+              <PremiumButton href={BRAND.funpay} variant="primary">
+                Заказать на FunPay
+                <ArrowExternal />
+              </PremiumButton>
+              <PremiumButton href="#portfolio" variant="outline">
+                Смотреть работы
+                <ArrowDown />
+              </PremiumButton>
+            </motion.div>
+          </div>
+
+          {/* Right floating panel: live offer card */}
+          <motion.aside
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+            className="relative hidden lg:block"
           >
-            <div className="relative h-[60vmin] w-[60vmin] max-h-[640px] max-w-[640px]">
-              <div className="absolute inset-0 rounded-full bg-gold/20 blur-3xl" />
-              <Image
-                src="/brand/rcode11-logo.png"
-                alt=""
-                fill
-                priority
-                className="object-contain mix-blend-screen"
-                sizes="640px"
-              />
+            <div className="sticky top-32">
+              <OfferCard />
             </div>
-          </motion.div>
-
-          <h1 className="relative font-display text-[clamp(3rem,11vw,10.5rem)] font-light leading-[0.88] tracking-[-0.03em]">
-            <span className="block text-gradient-bone">
-              <SplitText text="Не просто дизайн." />
-            </span>
-            <span className="mt-2 block italic text-gradient-gold">
-              <SplitText text="Восприятие." delay={0.25} />
-            </span>
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.0 }}
-            className="mt-10 max-w-xl text-balance text-base leading-relaxed text-mist md:text-lg"
-          >
-            {BRAND.subTagline}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.2 }}
-            className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
-          >
-            <PremiumButton href={BRAND.funpay} variant="primary">
-              Заказать на FunPay
-              <ArrowExternal />
-            </PremiumButton>
-            <PremiumButton href="#portfolio" variant="outline">
-              Смотреть портфолио
-              <ArrowDown />
-            </PremiumButton>
-          </motion.div>
+          </motion.aside>
         </motion.div>
 
         {/* Bottom marquee strip */}
         <motion.div
           style={{ y: subY, opacity: subOpacity }}
-          className="mt-14 grid grid-cols-2 gap-8 md:grid-cols-4"
+          className="mt-auto grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line/60 pt-8 md:grid-cols-4"
         >
           {[
-            { k: "Студия", v: "Rcode11" },
-            { k: "Практика", v: "Визуальная идентика" },
-            { k: "География", v: "Без границ" },
-            { k: "Слоты квартала", v: "2 из 5" },
+            { k: "Площадка", v: "FunPay · #9159608" },
+            { k: "Рейтинг", v: `${BRAND.rating} / 5.00` },
+            { k: "Сделок", v: `${BRAND.orders.toLocaleString()}+` },
+            { k: "Бриф", v: "AI · 24/7" },
           ].map((m) => (
-            <div key={m.k} className="flex flex-col gap-2 border-l border-line/70 pl-4">
+            <div key={m.k} className="flex flex-col gap-1">
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
                 {m.k}
               </span>
-              <span className="font-display text-lg leading-tight text-bone">{m.v}</span>
+              <span className="font-display text-base leading-tight text-bone">
+                {m.v}
+              </span>
             </div>
           ))}
         </motion.div>
       </div>
 
-      {/* Scroll cue */}
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.6 }}
-        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2"
-      >
-        <div className="flex flex-col items-center gap-3">
-          <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
-            Прокрутить
-          </span>
-          <span className="relative block h-10 w-px bg-gradient-to-b from-gold/70 to-transparent">
-            <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 animate-pulse rounded-full bg-gold-glow" />
-          </span>
-        </div>
-      </motion.div>
-
-      {/* Bottom edge fade to next section */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-ink" />
+      {/* Bottom edge fade */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-ink" />
     </section>
+  );
+}
+
+function OfferCard() {
+  return (
+    <div className="relative aspect-[3/4] w-full max-w-[420px] overflow-hidden rounded-[28px] border border-bone/12 bg-gradient-to-br from-[#0d0a06] to-[#050403]">
+      {/* Diagonal gold cut */}
+      <div
+        aria-hidden
+        className="absolute -right-20 top-0 h-full w-[120%] opacity-90"
+        style={{
+          background:
+            "linear-gradient(112deg, transparent 0 48%, rgba(201,163,90,0.18) 48% 50%, transparent 50% 70%, rgba(201,163,90,0.10) 70% 71.5%, transparent 71.5%)",
+        }}
+      />
+      <div className="absolute inset-0 bg-noise opacity-[0.10] mix-blend-overlay" />
+
+      {/* Header chrome */}
+      <div className="absolute inset-x-5 top-5 flex items-center justify-between">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow">
+          FunPay · Активен
+        </span>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-bone/15 bg-black/40 px-2 py-1 backdrop-blur">
+          <span className="relative inline-flex h-1.5 w-1.5">
+            <span className="absolute inset-0 animate-ping rounded-full bg-green-400/80" />
+            <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-green-300" />
+          </span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-bone/80">
+            ONLINE
+          </span>
+        </span>
+      </div>
+
+      {/* Main offer block */}
+      <div className="absolute inset-x-5 top-1/2 -translate-y-1/2 flex flex-col gap-4">
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
+          Что заказывают
+        </p>
+        <ul className="space-y-3 font-display text-2xl font-light leading-none text-bone">
+          {["Аватарка", "Баннер", "Логопак", "Превью", "Карточка товара"].map((label, i) => (
+            <li key={label} className="flex items-center gap-3">
+              <span className="font-mono text-[10px] text-gold-glow">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span>{label}</span>
+              <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.25em] text-bone/45">
+                {["1 день", "2 дня", "3-5 дней", "1 день", "2-3 дня"][i]}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Footer chrome */}
+      <div className="absolute inset-x-5 bottom-5 flex items-center justify-between">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
+          Гарантия площадки
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow">
+          → FunPay
+        </span>
+      </div>
+    </div>
   );
 }
 
