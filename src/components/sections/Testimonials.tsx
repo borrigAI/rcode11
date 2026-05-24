@@ -149,37 +149,23 @@ export function Testimonials() {
           </Reveal>
         </div>
 
-        {/* Quick-pick chips */}
-        <div className="mt-8">
-          <div className="no-scrollbar flex gap-3 overflow-x-auto pb-2 md:flex-wrap">
-            {TESTIMONIALS.map((t, i) => {
-              const isActive = i === active;
-              return (
-                <button
-                  key={i}
-                  onClick={() => setActive(i)}
-                  aria-pressed={isActive}
-                  className={`group flex flex-none min-w-[230px] max-w-[280px] flex-col items-start gap-2 rounded-2xl border px-4 py-3 text-left transition-all duration-300 md:min-w-0 md:flex-1 md:basis-[220px] ${
-                    isActive
-                      ? "border-gold/60 bg-gold/10 text-bone"
-                      : "border-line/70 bg-graphite/40 text-mist hover:border-line hover:text-bone"
-                  }`}
-                >
-                  <div className="flex w-full items-center justify-between gap-2">
-                    <span className="font-display text-sm text-bone">{t.name}</span>
-                    <Stars size={9} />
-                  </div>
-                  <span className="line-clamp-2 text-[12px] leading-snug text-bone/70">
-                    {t.quote}
-                  </span>
-                  <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted">
-                    {t.role}
-                  </span>
-                </button>
-              );
-            })}
+        {/* Footnote — link to all reviews */}
+        <Reveal delay={0.2}>
+          <div className="mt-10 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+            <p className="max-w-md text-[13px] text-muted">
+              Реальные отзывы с FunPay. На профиле — 750+ оценок, все 5.0 без единой просадки.
+            </p>
+            <a
+              href="https://funpay.com/users/9159608/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow transition-colors hover:bg-gold/20"
+            >
+              Все отзывы на FunPay
+              <span aria-hidden>↗</span>
+            </a>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

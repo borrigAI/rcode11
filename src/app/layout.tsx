@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${BRAND.name} — ${BRAND.tagline}`,
     description:
-      "Статический дизайн на FunPay: аватарки, баннеры, логотипы, превью, карточки товаров и лендинги. AI-брифинг 24/7. Лоты от ₽99.",
+      "Статический дизайн на FunPay: аватарки, баннеры, логотипы, превью, карточки товаров и лендинги. AI-брифинг 24/7. Лоты от ₽49.",
     url: `https://${BRAND.domain}`,
     siteName: BRAND.name,
     locale: "ru_RU",

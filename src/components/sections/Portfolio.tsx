@@ -170,69 +170,84 @@ export function Portfolio() {
           }}
         >
           <AnimatePresence mode="popLayout">
-            {items.map((item, i) => (
-              <motion.button
-                key={item.id}
-                data-card
-                layout
-                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.04 }}
-                onClick={() => setOpen(item)}
-                className={cn(
-                  "group relative flex-none overflow-hidden rounded-[28px] border border-line/70 bg-graphite text-left transition-shadow duration-500",
-                  "w-[78vw] sm:w-[58vw] md:w-[44vw] lg:w-[34vw] xl:w-[28vw]",
-                  "aspect-[4/5] [scroll-snap-align:start]",
-                  "hover:shadow-[0_40px_120px_-30px_rgba(201,163,90,0.35)]"
-                )}
-              >
-                <div className="absolute inset-0">
-                  <motion.div
-                    className="h-full w-full"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <ProjectVisual item={item} />
-                  </motion.div>
-                </div>
-
-                {/* Top chrome */}
-                <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-2 p-4">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-bone/20 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-bone/75 backdrop-blur-md">
-                    {item.category}
-                  </span>
-                  {item.status === "nda" ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-gold-glow backdrop-blur-md">
-                      NDA
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-bone/20 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-bone/75 backdrop-blur-md">
-                      {item.year}
-                    </span>
+            {items.map((item, i) => {
+              // Each card matches its work's natural aspect ratio so nothing is cropped.
+              // Width = height × ratio; height is fluid (responsive clamp via CSS var).
+              const ratio = item.image
+                ? item.image.width / item.image.height
+                : item.layout === "wide"
+                  ? 16 / 9
+                  : item.layout === "tall"
+                    ? 4 / 5
+                    : 1;
+              return (
+                <motion.button
+                  key={item.id}
+                  data-card
+                  layout
+                  initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.04 }}
+                  onClick={() => setOpen(item)}
+                  className={cn(
+                    "group relative flex-none overflow-hidden rounded-[28px] border border-line/70 bg-graphite text-left transition-shadow duration-500",
+                    "[scroll-snap-align:start]",
+                    "hover:shadow-[0_40px_120px_-30px_rgba(201,163,90,0.35)]"
                   )}
-                </div>
+                  style={{
+                    // height responsive — width follows aspect ratio so work renders whole, no cropping
+                    height: "clamp(360px, 60vh, 600px)",
+                    aspectRatio: `${ratio}`,
+                  }}
+                >
+                  <div className="absolute inset-0">
+                    <motion.div
+                      className="h-full w-full"
+                      whileHover={{ scale: 1.04 }}
+                      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <ProjectVisual item={item} />
+                    </motion.div>
+                  </div>
 
-                {/* Bottom info — minimal */}
-                <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-1 p-5 md:p-6">
-                  <span className="font-display text-xl leading-tight text-bone md:text-2xl">
-                    {item.title}
-                  </span>
-                  <span className="text-[12px] text-bone/65">
-                    {item.client}
-                  </span>
-                </div>
+                  {/* Top chrome */}
+                  <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-2 p-4">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-bone/20 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-bone/75 backdrop-blur-md">
+                      {item.category}
+                    </span>
+                    {item.status === "nda" ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-gold-glow backdrop-blur-md">
+                        NDA
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-bone/20 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-bone/75 backdrop-blur-md">
+                        {item.year}
+                      </span>
+                    )}
+                  </div>
 
-                {/* Hover overlay */}
-                <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-ink/85 via-ink/10 to-ink/40 opacity-95 transition-opacity duration-500 group-hover:opacity-100" />
+                  {/* Bottom info — minimal */}
+                  <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-1 p-5 md:p-6">
+                    <span className="font-display text-xl leading-tight text-bone md:text-2xl">
+                      {item.title}
+                    </span>
+                    <span className="text-[12px] text-bone/65">
+                      {item.client}
+                    </span>
+                  </div>
 
-                {/* Open badge */}
-                <div className="pointer-events-none absolute right-5 top-1/2 z-[6] inline-flex -translate-y-1/2 translate-x-4 items-center gap-1.5 rounded-full border border-gold/50 bg-ink/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow opacity-0 backdrop-blur-md transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">
-                  Открыть
-                  <span aria-hidden>→</span>
-                </div>
-              </motion.button>
-            ))}
+                  {/* Hover overlay */}
+                  <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-ink/80 via-ink/0 to-ink/15 opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+
+                  {/* Open badge */}
+                  <div className="pointer-events-none absolute right-5 top-1/2 z-[6] inline-flex -translate-y-1/2 translate-x-4 items-center gap-1.5 rounded-full border border-gold/50 bg-ink/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow opacity-0 backdrop-blur-md transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">
+                    Открыть
+                    <span aria-hidden>→</span>
+                  </div>
+                </motion.button>
+              );
+            })}
           </AnimatePresence>
         </div>
 

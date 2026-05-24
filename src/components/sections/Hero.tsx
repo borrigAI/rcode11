@@ -1,18 +1,29 @@
 "use client";
 
+import Image from "next/image";
 import {
   motion,
   useMotionTemplate,
   useMotionValue,
   useScroll,
+  useSpring,
   useTransform,
 } from "motion/react";
 import { useEffect, useRef } from "react";
 import { ParticleField } from "@/components/fx/ParticleField";
 import { PremiumButton } from "@/components/ui/PremiumButton";
-import { BRAND, PORTFOLIO_CATEGORIES } from "@/lib/data";
+import { BRAND, PORTFOLIO, PORTFOLIO_CATEGORIES } from "@/lib/data";
 
 const CATEGORY_PILLS = PORTFOLIO_CATEGORIES.filter((c) => c !== "Все");
+
+// Pick the 4 strongest live works as constellation pieces.
+const CONSTELLATION = (() => {
+  const byId = Object.fromEntries(PORTFOLIO.map((p) => [p.id, p]));
+  return ["p-03", "p-01", "p-06", "p-05"]
+    .map((id) => byId[id])
+    .filter((p) => p?.image)
+    .slice(0, 4);
+})();
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -125,7 +136,7 @@ export function Hero() {
         {/* Headline */}
         <motion.div
           style={{ y: titleY, opacity: titleOpacity }}
-          className="relative mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-[1.5fr_1fr] lg:gap-16"
+          className="relative mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-[1.35fr_1fr] lg:gap-12 xl:gap-20"
         >
           <div className="relative">
             <motion.h1
@@ -189,16 +200,14 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right floating panel: live offer card */}
+          {/* Right: cinematic portfolio constellation (desktop) + mobile compact */}
           <motion.aside
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-            className="relative hidden lg:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+            className="relative"
           >
-            <div className="sticky top-32">
-              <OfferCard />
-            </div>
+            <Constellation mx={mx} my={my} />
           </motion.aside>
         </motion.div>
 
@@ -240,66 +249,221 @@ export function Hero() {
   );
 }
 
-function OfferCard() {
+/* -------------------------------------------------------------------------- *
+ *  Cinematic portfolio constellation                                          *
+ *  A premium-feeling floating composition of real works in 3D-tilted space.   *
+ *  - depth-based parallax on cursor                                            *
+ *  - slow orbital drift (loop animation per card)                              *
+ *  - gold light sweep travelling across the canvas                             *
+ * -------------------------------------------------------------------------- */
+function Constellation({
+  mx,
+  my,
+}: {
+  mx: ReturnType<typeof useMotionValue<number>>;
+  my: ReturnType<typeof useMotionValue<number>>;
+}) {
+  // smoothed cursor offsets used to drive parallax (% 0..100 → -1..1 range)
+  const sx = useSpring(useTransform(mx, (v) => (v - 50) / 50), {
+    stiffness: 60,
+    damping: 18,
+    mass: 0.6,
+  });
+  const sy = useSpring(useTransform(my, (v) => (v - 50) / 50), {
+    stiffness: 60,
+    damping: 18,
+    mass: 0.6,
+  });
+
   return (
-    <div className="relative aspect-[3/4] w-full max-w-[420px] overflow-hidden rounded-[28px] border border-bone/12 bg-gradient-to-br from-[#0d0a06] to-[#050403]">
-      {/* Diagonal gold cut */}
+    <div
+      className="relative mx-auto aspect-[4/5] w-full max-w-[520px] [perspective:1400px]"
+      style={{ transformStyle: "preserve-3d" }}
+    >
+      {/* Floor glow */}
       <div
         aria-hidden
-        className="absolute -right-20 top-0 h-full w-[120%] opacity-90"
+        className="pointer-events-none absolute inset-x-6 bottom-2 h-32 rounded-full opacity-80 blur-3xl"
         style={{
           background:
-            "linear-gradient(112deg, transparent 0 48%, rgba(201,163,90,0.18) 48% 50%, transparent 50% 70%, rgba(201,163,90,0.10) 70% 71.5%, transparent 71.5%)",
+            "radial-gradient(closest-side, rgba(201,163,90,0.22), rgba(201,163,90,0) 70%)",
         }}
       />
-      <div className="absolute inset-0 bg-noise opacity-[0.10] mix-blend-overlay" />
 
-      {/* Header chrome */}
-      <div className="absolute inset-x-5 top-5 flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow">
-          FunPay · Активен
-        </span>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-bone/15 bg-black/40 px-2 py-1 backdrop-blur">
-          <span className="relative inline-flex h-1.5 w-1.5">
-            <span className="absolute inset-0 animate-ping rounded-full bg-green-400/80" />
-            <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-green-300" />
-          </span>
-          <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-bone/80">
-            ONLINE
-          </span>
-        </span>
-      </div>
+      {/* gold light sweep */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 mix-blend-screen"
+        initial={{ x: "-30%" }}
+        animate={{ x: "130%" }}
+        transition={{ duration: 9, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 1.5 }}
+        style={{
+          background:
+            "linear-gradient(110deg, transparent 35%, rgba(201,163,90,0.16) 50%, transparent 65%)",
+          filter: "blur(8px)",
+        }}
+      />
 
-      {/* Main offer block */}
-      <div className="absolute inset-x-5 top-1/2 -translate-y-1/2 flex flex-col gap-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
-          Что заказывают
-        </p>
-        <ul className="space-y-3 font-display text-2xl font-light leading-none text-bone">
-          {["Аватарка", "Баннер", "Логопак", "Превью", "Лендинг"].map((label, i) => (
-            <li key={label} className="flex items-center gap-3">
-              <span className="font-mono text-[10px] text-gold-glow">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span>{label}</span>
-              <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.25em] text-bone/45">
-                {["~4 часа", "~4 часа", "до 24 ч", "~4 часа", "3–5 дней"][i]}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* Floating frame label */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+        className="absolute -top-1 right-0 z-30 flex items-center gap-2 rounded-full border border-bone/10 bg-black/40 px-2.5 py-1 backdrop-blur"
+      >
+        <span className="relative inline-flex h-1.5 w-1.5">
+          <span className="absolute inset-0 animate-ping rounded-full bg-gold/70" />
+          <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-gold-glow" />
+        </span>
+        <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-bone/75">
+          Live · Подборка работ
+        </span>
+      </motion.div>
 
-      {/* Footer chrome */}
-      <div className="absolute inset-x-5 bottom-5 flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
-          Гарантия площадки
-        </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow">
-          → FunPay
-        </span>
-      </div>
+      {/* Cards (back to front so later cards overlap earlier ones) */}
+      {CONSTELLATION.map((p, i) => {
+        if (!p?.image) return null;
+        return (
+          <FloatingCard
+            key={p.id}
+            index={i}
+            sx={sx}
+            sy={sy}
+            title={p.title}
+            category={p.category}
+            ticker={p.ticker}
+            image={p.image}
+          />
+        );
+      })}
+
+      {/* Center monogram subtle hint */}
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.06 }}
+        transition={{ duration: 2.4, ease: "easeOut", delay: 0.6 }}
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[8rem] font-medium tracking-[-0.04em] text-gold-glow"
+        style={{ transform: "translate(-50%, -50%)" }}
+      >
+        R11
+      </motion.div>
     </div>
+  );
+}
+
+type FloatingCardProps = {
+  index: number;
+  sx: ReturnType<typeof useSpring>;
+  sy: ReturnType<typeof useSpring>;
+  title: string;
+  category: string;
+  ticker: string;
+  image: { src: string; width: number; height: number; alt: string; objectPosition?: string };
+};
+
+// Per-card layout constants (offset in % of container, size in % of container,
+// depth multiplier for parallax intensity, rotation, float duration).
+const CARD_LAYOUT: Array<{
+  top: string;
+  left?: string;
+  right?: string;
+  size: string;
+  depth: number;
+  rotate: number;
+  delay: number;
+  float: number;
+  aspect: string;
+  zIndex: number;
+}> = [
+  // 0: hero — big back-left
+  { top: "6%", left: "-2%", size: "62%", depth: 1.6, rotate: -7, delay: 0.2, float: 8.4, aspect: "1 / 1", zIndex: 10 },
+  // 1: foreground right
+  { top: "30%", right: "-4%", size: "44%", depth: 2.4, rotate: 9, delay: 0.6, float: 7.6, aspect: "1 / 1", zIndex: 20 },
+  // 2: bottom wide preview
+  { top: "62%", left: "8%", size: "58%", depth: 2.0, rotate: -4, delay: 0.95, float: 9.2, aspect: "16 / 9", zIndex: 15 },
+  // 3: tiny top-right badge card
+  { top: "-2%", right: "8%", size: "26%", depth: 3.0, rotate: 14, delay: 1.25, float: 6.8, aspect: "2 / 1", zIndex: 25 },
+];
+
+function FloatingCard({ index, sx, sy, title, category, ticker, image }: FloatingCardProps) {
+  const layout = CARD_LAYOUT[index];
+  // depth controls how much the card moves with cursor parallax
+  const tx = useTransform(sx, (v) => v * 18 * (1 / layout.depth));
+  const ty = useTransform(sy, (v) => v * 12 * (1 / layout.depth));
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28, scale: 0.94 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        duration: 1.2,
+        ease: [0.16, 1, 0.3, 1],
+        delay: layout.delay,
+      }}
+      style={{
+        position: "absolute",
+        top: layout.top,
+        left: layout.left,
+        right: layout.right,
+        width: layout.size,
+        aspectRatio: layout.aspect,
+        zIndex: layout.zIndex,
+        x: tx,
+        y: ty,
+        rotate: layout.rotate,
+        transformStyle: "preserve-3d",
+      }}
+    >
+      <motion.div
+        animate={{ y: [0, -10, 0, 6, 0] }}
+        transition={{
+          duration: layout.float,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+          delay: layout.delay,
+        }}
+        className="relative h-full w-full"
+      >
+        <div className="group relative h-full w-full overflow-hidden rounded-[18px] border border-bone/15 bg-graphite/40 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55),0_0_0_1px_rgba(201,163,90,0.05)]">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(min-width:1024px) 30vw, 70vw"
+            className="object-cover"
+            style={{ objectPosition: image.objectPosition ?? "center" }}
+            priority={index < 2}
+          />
+          {/* Inner gradient frame */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-[18px]"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.65) 100%)",
+            }}
+          />
+          {/* Top corner ticker */}
+          <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-black/55 px-2 py-0.5 backdrop-blur">
+            <span className="h-1 w-1 rounded-full bg-gold-glow" />
+            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-bone/80">
+              {category}
+            </span>
+          </div>
+          {/* Bottom caption */}
+          <div className="absolute inset-x-3 bottom-2.5 flex items-end justify-between gap-2">
+            <p className="font-display text-[13px] leading-tight text-bone">
+              {title}
+            </p>
+            <span className="font-mono text-[8px] uppercase tracking-[0.3em] text-bone/55 text-right shrink-0 max-w-[60%] truncate">
+              {ticker}
+            </span>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

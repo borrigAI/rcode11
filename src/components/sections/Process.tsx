@@ -115,11 +115,15 @@ export function Process() {
                           NEW · AI
                         </span>
                       )}
-                      <div className="flex items-center gap-3">
+                      <div className="flex flex-wrap items-center gap-3">
                         <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-gold">
                           {s.label}
                         </span>
-                        <span className="h-px flex-1 bg-line" />
+                        <span className="hidden h-px flex-1 bg-line md:block" />
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/[0.06] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-gold-glow">
+                          <span aria-hidden className="inline-block h-1 w-1 rounded-full bg-gold-glow" />
+                          {s.sla}
+                        </span>
                       </div>
                       <h3 className="mt-3 font-display text-[clamp(1.5rem,3.2vw,2.4rem)] font-light leading-[1.08] tracking-[-0.02em] text-bone text-balance">
                         {s.title}

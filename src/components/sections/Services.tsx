@@ -63,13 +63,13 @@ export function Services() {
             return (
               <Reveal key={s.n} delay={i * 0.04} as="li">
                 <motion.a
-                  href={BRAND.funpay}
+                  href={s.href ?? BRAND.funpay}
                   target="_blank"
                   rel="noreferrer"
                   whileHover={{ x: 6 }}
                   transition={{ type: "spring", stiffness: 240, damping: 26 }}
                   className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-2 border-t border-line/70 py-6 md:grid-cols-[3.5rem_minmax(0,1.2fr)_minmax(0,1.5fr)_auto_auto] md:gap-x-8 md:py-8"
-                  aria-label={`${s.category} — открыть на FunPay`}
+                  aria-label={`${s.category} — открыть лот на FunPay`}
                 >
                   {/* Hover gold underline */}
                   <span
