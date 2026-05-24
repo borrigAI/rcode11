@@ -164,6 +164,30 @@ body {
 .h-screen-svh { height: 100svh; }
 .min-h-screen-svh { min-height: 100svh; }
 
+/* Shared container: generous breathing room on every viewport.
+   Mobile bumps to 22px / 28px so headlines never hug the edge. */
+.container-x {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.375rem, 4.2vw, 4rem);
+  padding-right: clamp(1.375rem, 4.2vw, 4rem);
+}
+
+/* No-scrollbar utility for horizontal carousels */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Subtle marquee for trust strip */
+@keyframes marquee-x {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee-x {
+  animation: marquee-x 38s linear infinite;
+}
+
 /* Seamless section transitions — soft fade at top and bottom of each section.
    Sits above the section's own background but below positioned content
    (z-index: -1 inside the section's `isolate` stacking context). */

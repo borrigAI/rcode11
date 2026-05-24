@@ -4,7 +4,7 @@ import { BRAND, NAV_LINKS } from "@/lib/data";
 export function Footer() {
   return (
     <footer className="relative isolate overflow-hidden bg-obsidian py-14 md:py-16">
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-10 px-6 lg:px-12">
+      <div className="container-x flex flex-col gap-10">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="flex flex-col gap-5">
             <Logo withWordmark />
@@ -45,7 +45,7 @@ export function Footer() {
 
         <div className="relative">
           <div className="absolute inset-x-0 top-0 h-px divider-line" />
-          <p className="pt-10 font-display text-[clamp(3rem,10vw,9rem)] font-light leading-none tracking-[-0.05em] text-bone/95">
+          <p className="pt-10 font-display text-[clamp(2.6rem,11vw,9rem)] font-light leading-none tracking-[-0.05em] text-bone/95 text-balance">
             <span className="text-gradient-gold">Rcode11</span>
             <span className="text-bone/60">.</span>
           </p>

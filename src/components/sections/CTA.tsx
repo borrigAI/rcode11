@@ -38,7 +38,7 @@ export function CTA() {
       </motion.div>
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.18] mask-radial-center" />
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-6 lg:px-12">
+      <div className="container-x relative">
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <Reveal>
             <span className="font-mono text-[10px] uppercase tracking-[0.45em] text-gold">
@@ -46,7 +46,7 @@ export function CTA() {
             </span>
           </Reveal>
           <Reveal delay={0.05}>
-            <h2 className="mt-6 font-display text-[clamp(2.6rem,8.5vw,7.5rem)] font-medium leading-[0.88] tracking-[-0.04em] text-bone">
+            <h2 className="mt-6 font-display text-[clamp(2.4rem,8vw,7rem)] font-medium leading-[0.9] tracking-[-0.04em] text-bone text-balance">
               Заберите лот,
               <br />
               который выглядит

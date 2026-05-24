@@ -73,7 +73,7 @@ export function Hero() {
       {/* Side rails — minimalized */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-6 hidden flex-col items-start justify-between py-32 lg:flex lg:left-10"
+        className="pointer-events-none absolute inset-y-0 left-4 hidden flex-col items-start justify-between py-32 xl:flex xl:left-6"
       >
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
           [01] — Студия
@@ -84,7 +84,7 @@ export function Hero() {
       </div>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-6 hidden flex-col items-end justify-between py-32 lg:flex lg:right-10"
+        className="pointer-events-none absolute inset-y-0 right-4 hidden flex-col items-end justify-between py-32 xl:flex xl:right-6"
       >
         <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted">
           {BRAND.orders.toLocaleString("en-US")}+ заказов
@@ -94,7 +94,7 @@ export function Hero() {
         </span>
       </div>
 
-      <div className="relative mx-auto flex min-h-screen-svh w-full max-w-[1440px] flex-col px-6 pb-16 pt-32 lg:px-16 lg:pt-36">
+      <div className="container-x relative flex min-h-screen-svh flex-col pb-16 pt-32 lg:pt-36">
         {/* Eyebrow row */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -132,8 +132,8 @@ export function Hero() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              className="font-display font-medium leading-[0.86] tracking-[-0.045em] text-bone"
-              style={{ fontSize: "clamp(3rem, 9.5vw, 9rem)" }}
+              className="font-display font-medium leading-[0.86] tracking-[-0.045em] text-bone text-balance"
+              style={{ fontSize: "clamp(2.5rem, 9vw, 8.5rem)" }}
             >
               Дизайн,
               <br />

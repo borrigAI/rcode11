@@ -16,14 +16,14 @@ export function WhyChoose() {
         className="absolute -right-32 -bottom-32 h-[40rem] w-[40rem] rounded-full bg-gold/8 blur-3xl"
       />
 
-      <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
+      <div className="container-x">
         <div className="grid gap-8 md:grid-cols-2 md:items-end">
           <Reveal>
             <div className="flex flex-col gap-5">
               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
                 [07] Почему Rcode11
               </span>
-              <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-7xl">
+              <h2 className="font-display text-[clamp(2.3rem,5.6vw,4.5rem)] font-medium leading-[0.94] tracking-[-0.035em] text-bone text-balance">
                 Лучший статический
                 <br />
                 дизайн на

@@ -92,21 +92,25 @@ export function ProjectVisual({
         </>
       )}
 
-      <div className="absolute left-5 top-5 flex items-center gap-2">
-        <span
-          className="inline-block h-1.5 w-1.5 rounded-full"
-          style={{
-            background: a.accent,
-            boxShadow: `0 0 12px ${a.accent}cc`,
-          }}
-        />
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
-          {item.ticker}
-        </span>
-      </div>
-      <span className="absolute right-5 top-5 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/45">
-        {item.id.toUpperCase()}
-      </span>
+      {mode === "modal" && (
+        <>
+          <div className="absolute left-5 top-5 flex items-center gap-2">
+            <span
+              className="inline-block h-1.5 w-1.5 rounded-full"
+              style={{
+                background: a.accent,
+                boxShadow: `0 0 12px ${a.accent}cc`,
+              }}
+            />
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
+              {item.ticker}
+            </span>
+          </div>
+          <span className="absolute right-5 top-5 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/45">
+            {item.id.toUpperCase()}
+          </span>
+        </>
+      )}
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.55)_100%)]" />
     </div>

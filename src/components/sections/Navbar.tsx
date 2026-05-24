@@ -25,7 +25,7 @@ export function Navbar() {
         scrolled ? "py-3" : "py-6"
       )}
     >
-      <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 lg:px-12">
+      <div className="container-x flex items-center justify-between">
         <div
           className={cn(
             "flex items-center gap-3 rounded-full border border-line/0 bg-ink/0 px-2 py-1 transition-all duration-500",
@@ -90,7 +90,7 @@ export function Navbar() {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="lg:hidden"
           >
-            <div className="mx-6 mt-3 rounded-3xl border border-line/80 bg-ink/85 p-6 backdrop-blur-2xl">
+            <div className="mt-3 rounded-3xl border border-line/80 bg-ink/85 p-6 backdrop-blur-2xl" style={{marginInline:"max(1.375rem,4.2vw)"}}>
               <div className="flex flex-col gap-1">
                 {NAV_LINKS.map((link) => (
                   <a

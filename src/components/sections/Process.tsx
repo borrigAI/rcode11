@@ -20,14 +20,14 @@ export function Process() {
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.16] mask-radial-center" />
       <div aria-hidden className="absolute -left-40 top-1/3 h-[40rem] w-[40rem] rounded-full bg-gold/8 blur-3xl" />
 
-      <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
+      <div className="container-x">
         <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-20">
           <Reveal>
             <div className="lg:sticky lg:top-32">
               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
                 [05] Процесс
               </span>
-              <h2 className="mt-4 font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-6xl">
+              <h2 className="mt-4 font-display text-[clamp(2.3rem,5.4vw,4rem)] font-medium leading-[0.94] tracking-[-0.035em] text-bone text-balance">
                 Шесть этапов.
                 <br />
                 <span className="text-gradient-gold">Без срезов.</span>
@@ -121,7 +121,7 @@ export function Process() {
                         </span>
                         <span className="h-px flex-1 bg-line" />
                       </div>
-                      <h3 className="mt-3 font-display text-3xl font-light leading-[1.05] tracking-[-0.02em] text-bone md:text-4xl">
+                      <h3 className="mt-3 font-display text-[clamp(1.5rem,3.2vw,2.4rem)] font-light leading-[1.08] tracking-[-0.02em] text-bone text-balance">
                         {s.title}
                       </h3>
                       <p className="mt-4 max-w-xl text-mist">{s.body}</p>

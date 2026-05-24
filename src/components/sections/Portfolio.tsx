@@ -1,26 +1,18 @@
 "use client";
 
-import { AnimatePresence, motion, type Variants } from "motion/react";
-import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { PORTFOLIO, PORTFOLIO_CATEGORIES, type PortfolioItem } from "@/lib/data";
 import { ProjectVisual } from "@/components/sections/ProjectVisual";
 import { cn } from "@/lib/utils";
 
-const layoutSpan: Record<PortfolioItem["layout"], string> = {
-  wide: "lg:col-span-8 lg:row-span-1",
-  tall: "lg:col-span-4 lg:row-span-2",
-  square: "lg:col-span-4 lg:row-span-1",
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 40, filter: "blur(10px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)" },
-};
-
 export function Portfolio() {
   const [active, setActive] = useState<(typeof PORTFOLIO_CATEGORIES)[number]>("Все");
   const [open, setOpen] = useState<PortfolioItem | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [position, setPosition] = useState({ current: 1, total: 0 });
 
   const items = useMemo(
     () =>
@@ -30,126 +22,281 @@ export function Portfolio() {
     [active]
   );
 
+  useEffect(() => {
+    // reset scroll when filter changes
+    trackRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+  }, [active]);
+
+  const onScroll = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setProgress(max > 0 ? Math.min(1, Math.max(0, el.scrollLeft / max)) : 0);
+
+    // figure out visible card index
+    const cards = Array.from(el.querySelectorAll<HTMLElement>("[data-card]"));
+    if (!cards.length) return;
+    const rectLeft = el.getBoundingClientRect().left;
+    let best = 0;
+    let bestDelta = Number.POSITIVE_INFINITY;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.getBoundingClientRect().left - rectLeft - 12);
+      if (d < bestDelta) {
+        bestDelta = d;
+        best = i;
+      }
+    });
+    setPosition({ current: best + 1, total: cards.length });
+  };
+
+  useEffect(() => {
+    // initial calc once items render
+    requestAnimationFrame(onScroll);
+  }, [items]);
+
+  const scrollByCard = (dir: -1 | 1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>("[data-card]");
+    const step = card ? card.clientWidth + 20 : 320;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
   return (
     <section
       id="portfolio"
       aria-label="Портфолио"
-      className="relative isolate overflow-hidden bg-ink py-28 md:py-36"
+      className="relative isolate overflow-clip bg-ink py-24 md:py-32"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.18] mask-radial-center" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.14] mask-radial-center" />
 
-      <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <Reveal>
-            <div className="flex flex-col gap-5">
-              <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
-                [04] Избранные работы
-              </span>
-              <h2 className="font-display text-5xl font-medium leading-[0.92] tracking-[-0.03em] text-bone md:text-7xl">
-                Архив сданных
-                <br />
-                <span className="text-gradient-gold">FunPay-сделок.</span>
-              </h2>
-            </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="max-w-sm text-mist">
-              Публично показана лишь часть работ. Большинство проектов выходит под NDA —
-              конфиденциальность входит в условия.
-            </p>
-          </Reveal>
-        </div>
-
-        <Reveal delay={0.2}>
-          <div className="mt-12 flex flex-wrap items-center gap-2 border-y border-line/60 py-4">
-            {PORTFOLIO_CATEGORIES.map((c) => {
-              const isActive = active === c;
-              return (
-                <button
-                  key={c}
-                  onClick={() => setActive(c)}
-                  className={cn(
-                    "relative rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.25em] transition-colors duration-300",
-                    isActive
-                      ? "border-gold/70 bg-gold/10 text-gold-glow"
-                      : "border-line/70 bg-graphite/40 text-mist hover:border-line hover:text-bone"
-                  )}
-                >
-                  {c}
-                </button>
-              );
-            })}
-            <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.35em] text-muted">
-              {items.length.toString().padStart(2, "0")} / {PORTFOLIO.length.toString().padStart(2, "0")} показано
+      <div className="container-x">
+        {/* Eyebrow row */}
+        <Reveal>
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
+              [04] Работы
+            </span>
+            <span className="hidden h-px flex-1 bg-gradient-to-r from-gold/30 via-line/60 to-transparent md:block" />
+            <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted md:inline">
+              выберите категорию · листайте вправо
             </span>
           </div>
         </Reveal>
 
+        <div className="mt-10 grid items-end gap-8 md:mt-14 md:grid-cols-[1.2fr_1fr]">
+          <Reveal>
+            <h2 className="font-display text-[clamp(2.3rem,5.6vw,4.5rem)] font-medium leading-[0.94] tracking-[-0.035em] text-bone text-balance">
+              Что вас интересует
+              <br />
+              <span className="text-gradient-gold">из работ?</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <p className="max-w-md text-[15px] leading-relaxed text-mist md:ml-auto md:text-right">
+              Выберите направление — ниже появятся реальные работы. Листайте вправо, чтобы
+              увидеть все. Часть проектов под NDA — обозначены отдельно.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* Category picker — full-bleed scroll on mobile */}
+      <div className="mt-10 md:mt-14">
         <div
-          className={cn(
-            "mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-12 lg:grid-flow-dense",
-            "auto-rows-[22rem] lg:auto-rows-[20rem]"
-          )}
+          className="no-scrollbar flex gap-2 overflow-x-auto"
+          style={{
+            paddingLeft: "max(1.375rem, 4.2vw)",
+            paddingRight: "max(1.375rem, 4.2vw)",
+          }}
+        >
+          {PORTFOLIO_CATEGORIES.map((c) => {
+            const isActive = active === c;
+            const count =
+              c === "Все"
+                ? PORTFOLIO.length
+                : PORTFOLIO.filter((p) => p.category === c).length;
+            return (
+              <button
+                key={c}
+                onClick={() => setActive(c)}
+                aria-pressed={isActive}
+                className={cn(
+                  "group relative inline-flex flex-none items-center gap-2 rounded-full border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.25em] transition-all duration-300",
+                  isActive
+                    ? "border-gold/70 bg-gold/10 text-gold-glow shadow-[0_10px_40px_-10px_rgba(201,163,90,0.45)]"
+                    : "border-line/70 bg-graphite/40 text-mist hover:border-line hover:text-bone"
+                )}
+              >
+                <span>{c}</span>
+                <span
+                  className={cn(
+                    "rounded-full px-1.5 py-0.5 text-[9px] tracking-[0.2em]",
+                    isActive ? "bg-ink/60 text-gold-glow" : "bg-ink/60 text-muted"
+                  )}
+                >
+                  {count.toString().padStart(2, "0")}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Carousel header — counter + arrows */}
+      <div className="container-x mt-8 flex items-center justify-between gap-4">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
+          {position.current.toString().padStart(2, "0")} /{" "}
+          {position.total.toString().padStart(2, "0")}
+          <span className="ml-3 text-muted">показано</span>
+        </span>
+
+        <div className="flex items-center gap-2">
+          <CarouselArrow direction="left" onClick={() => scrollByCard(-1)} />
+          <CarouselArrow direction="right" onClick={() => scrollByCard(1)} />
+        </div>
+      </div>
+
+      {/* Track */}
+      <div className="relative mt-4">
+        <div
+          ref={trackRef}
+          onScroll={onScroll}
+          className="no-scrollbar relative flex gap-5 overflow-x-auto scroll-smooth pb-4 [scroll-snap-type:x_mandatory] md:gap-6"
+          style={{
+            paddingLeft: "max(1.375rem, 4.2vw)",
+            paddingRight: "max(1.375rem, 4.2vw)",
+            scrollPaddingLeft: "max(1.375rem, 4.2vw)",
+          }}
         >
           <AnimatePresence mode="popLayout">
             {items.map((item, i) => (
               <motion.button
                 key={item.id}
+                data-card
                 layout
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: "-15% 0px" }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
+                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.04 }}
                 onClick={() => setOpen(item)}
                 className={cn(
-                  "group relative block overflow-hidden rounded-[28px] border border-line/70 bg-graphite text-left transition-shadow duration-500",
-                  layoutSpan[item.layout],
+                  "group relative flex-none overflow-hidden rounded-[28px] border border-line/70 bg-graphite text-left transition-shadow duration-500",
+                  "w-[78vw] sm:w-[58vw] md:w-[44vw] lg:w-[34vw] xl:w-[28vw]",
+                  "aspect-[4/5] [scroll-snap-align:start]",
                   "hover:shadow-[0_40px_120px_-30px_rgba(201,163,90,0.35)]"
                 )}
               >
                 <div className="absolute inset-0">
                   <motion.div
                     className="h-full w-full"
-                    whileHover={{ scale: 1.04 }}
+                    whileHover={{ scale: 1.05 }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <ProjectVisual item={item} />
                   </motion.div>
                 </div>
 
-                {/* Bottom info plate */}
-                <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 p-5 md:p-6">
-                  <div className="rounded-2xl border border-line/70 bg-ink/70 px-4 py-3 backdrop-blur-xl">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-gold/90">
-                      {item.category}
-                    </div>
-                    <div className="mt-1 font-display text-xl leading-tight text-bone">
-                      {item.title}
-                    </div>
-                    <div className="mt-0.5 text-[11px] text-mist/80">
-                      {item.client} · {item.year}
-                    </div>
-                  </div>
-                  <span className="hidden rounded-full border border-line/70 bg-ink/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/80 backdrop-blur-xl md:inline-flex">
-                    {item.metric}
+                {/* Top chrome */}
+                <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-2 p-4">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-bone/20 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-bone/75 backdrop-blur-md">
+                    {item.category}
+                  </span>
+                  {item.status === "nda" ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-gold-glow backdrop-blur-md">
+                      NDA
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-bone/20 bg-ink/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.3em] text-bone/75 backdrop-blur-md">
+                      {item.year}
+                    </span>
+                  )}
+                </div>
+
+                {/* Bottom info — minimal */}
+                <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-1 p-5 md:p-6">
+                  <span className="font-display text-xl leading-tight text-bone md:text-2xl">
+                    {item.title}
+                  </span>
+                  <span className="text-[12px] text-bone/65">
+                    {item.client}
                   </span>
                 </div>
 
                 {/* Hover overlay */}
-                <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
-                <div className="pointer-events-none absolute right-5 top-5 z-[6] inline-flex items-center gap-1.5 rounded-full border border-bone/30 bg-ink/60 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/80 opacity-0 backdrop-blur-md transition-opacity duration-500 group-hover:opacity-100">
-                  Открыть кейс
+                <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-ink/85 via-ink/10 to-ink/40 opacity-95 transition-opacity duration-500 group-hover:opacity-100" />
+
+                {/* Open badge */}
+                <div className="pointer-events-none absolute right-5 top-1/2 z-[6] inline-flex -translate-y-1/2 translate-x-4 items-center gap-1.5 rounded-full border border-gold/50 bg-ink/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow opacity-0 backdrop-blur-md transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">
+                  Открыть
                   <span aria-hidden>→</span>
                 </div>
               </motion.button>
             ))}
           </AnimatePresence>
         </div>
+
+        {/* Edge fades */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink to-transparent md:w-24"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink to-transparent md:w-24"
+        />
+
+        {/* Progress bar */}
+        <div className="container-x mt-4">
+          <div className="relative h-px w-full overflow-hidden bg-line/70">
+            <motion.div
+              className="absolute inset-y-0 left-0 bg-gradient-to-r from-gold-glow via-gold to-gold-deep"
+              style={{ width: `${Math.max(8, progress * 100)}%` }}
+              transition={{ duration: 0.2 }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile hint */}
+      <div className="container-x mt-6 flex items-center gap-2 md:hidden">
+        <span aria-hidden className="font-mono text-[10px] text-gold-glow">←</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
+          свайп для смены работы
+        </span>
+        <span aria-hidden className="font-mono text-[10px] text-gold-glow">→</span>
       </div>
 
       <CaseModal item={open} onClose={() => setOpen(null)} />
     </section>
+  );
+}
+
+function CarouselArrow({
+  direction,
+  onClick,
+}: {
+  direction: "left" | "right";
+  onClick: () => void;
+}) {
+  const isLeft = direction === "left";
+  return (
+    <button
+      type="button"
+      aria-label={isLeft ? "Предыдущая работа" : "Следующая работа"}
+      onClick={onClick}
+      className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-line/70 bg-graphite/60 text-bone/70 transition-colors hover:border-gold/60 hover:bg-gold/10 hover:text-gold-glow"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+        <path
+          d={isLeft ? "M9 2L4 7l5 5" : "M5 2l5 5-5 5"}
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
   );
 }
 
@@ -187,8 +334,8 @@ function CaseModal({
             <div className="relative aspect-[16/10] w-full md:aspect-auto md:min-h-[520px]">
               <ProjectVisual item={item} mode="modal" />
             </div>
-            <div className="flex flex-col gap-6 p-8 md:p-10">
-              <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-6 p-7 md:p-10">
+              <div className="flex items-center justify-between gap-3">
                 <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold">
                   Кейс · {item.id.toUpperCase()}
                 </span>
@@ -211,34 +358,21 @@ function CaseModal({
                 </h3>
                 <p className="mt-2 text-mist">{item.client}</p>
               </div>
-              <p className="text-bone/90">{item.copy}</p>
+              <p className="text-[15px] leading-relaxed text-bone/90">{item.copy}</p>
               <div className="mt-2 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line/70 bg-line/40">
                 {[
                   ["Год", item.year.toString()],
                   ["Результат", item.metric],
                   ["Формат", item.ticker],
-                  ["Статус", "Сдан"],
+                  ["Статус", item.status === "nda" ? "Под NDA" : "Сдан"],
                 ].map(([k, v]) => (
                   <div key={k} className="flex flex-col gap-1 bg-graphite p-4">
                     <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
                       {k}
                     </span>
-                    <span className="font-display text-base text-bone">{v}</span>
+                    <span className="text-sm leading-tight text-bone">{v}</span>
                   </div>
                 ))}
-              </div>
-              <div className="mt-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <span className="text-xs text-muted">
-                  Полный кейс под NDA. Предоставляется по запросу.
-                </span>
-                <a
-                  href="#contact"
-                  onClick={onClose}
-                  className="inline-flex items-center gap-2 rounded-full border border-gold/70 px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.25em] text-gold-glow transition-colors hover:bg-gold/10"
-                >
-                  Обсудить задачу
-                  <span aria-hidden>→</span>
-                </a>
               </div>
             </div>
           </motion.div>
