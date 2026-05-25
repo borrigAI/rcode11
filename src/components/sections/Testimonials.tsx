@@ -25,7 +25,7 @@ export function Testimonials() {
     <section
       id="testimonials"
       aria-label="Отзывы"
-      className="relative isolate overflow-clip bg-ink py-24 md:py-32"
+      className="relative isolate overflow-clip py-24 md:py-32"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.13] mask-radial-center" />
       <div aria-hidden className="absolute -left-32 top-1/3 h-[40rem] w-[40rem] rounded-full bg-gold/[0.07] blur-3xl" />

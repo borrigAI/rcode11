@@ -20,7 +20,7 @@ export function Services() {
     <section
       id="services"
       aria-label="Услуги"
-      className="relative isolate overflow-clip bg-ink py-24 md:py-32"
+      className="relative isolate overflow-clip py-24 md:py-32"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.12] mask-radial-center" />
       <div aria-hidden className="absolute -right-40 top-0 h-[36rem] w-[36rem] rounded-full bg-gold/[0.05] blur-3xl" />

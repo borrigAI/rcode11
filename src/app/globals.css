@@ -34,7 +34,12 @@ html {
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(1200px 800px at 15% 12%, rgba(201, 163, 90, 0.05), transparent 65%),
+    radial-gradient(1000px 700px at 85% 90%, rgba(78, 92, 124, 0.04), transparent 65%),
+    radial-gradient(800px 600px at 50% 50%, rgba(255, 255, 255, 0.015), transparent 70%),
+    linear-gradient(180deg, #070605 0%, #050505 50%, #050403 100%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-feature-settings: "ss01", "cv11";
@@ -42,6 +47,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
+}
+
+/* Fine film-grain overlay over the whole page — gives the surface a subtle
+   tactile depth, prevents flat-black perception. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
 }
 
 ::selection {
@@ -186,6 +204,48 @@ body {
 }
 .animate-marquee-x {
   animation: marquee-x 38s linear infinite;
+}
+
+/* Cinema-wall column animations — pure CSS / GPU-only for low CPU cost.
+   `cinema-up` and `cinema-down` move a duplicated list by 50% of its own
+   height, producing a seamless infinite loop. */
+@keyframes cinema-up {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -50%, 0); }
+}
+@keyframes cinema-down {
+  from { transform: translate3d(0, -50%, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+.animate-cinema-up,
+.animate-cinema-down {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.animate-cinema-up   { animation: cinema-up   var(--cinema-duration, 40s) linear infinite; }
+.animate-cinema-down { animation: cinema-down var(--cinema-duration, 40s) linear infinite; }
+
+/* Premium dark surface: replaces flat #050505. A layered composition of
+   - deep warm-cold gradient base
+   - two soft radial halos in subtle gold / cool ink
+   - fine grain noise overlay
+   …creates a "lit room" feeling rather than a blank canvas. */
+.bg-premium {
+  background:
+    radial-gradient(1200px 800px at 15% 12%, rgba(201, 163, 90, 0.06), transparent 65%),
+    radial-gradient(1000px 700px at 85% 90%, rgba(78, 92, 124, 0.05), transparent 65%),
+    radial-gradient(800px 600px at 50% 50%, rgba(255, 255, 255, 0.018), transparent 70%),
+    linear-gradient(180deg, #070605 0%, #050505 50%, #050403 100%);
+}
+.bg-premium-noise::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
 }
 
 /* Seamless section transitions — soft fade at top and bottom of each section.

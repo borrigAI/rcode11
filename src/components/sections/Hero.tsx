@@ -6,42 +6,30 @@ import {
   useMotionTemplate,
   useMotionValue,
   useScroll,
-  useSpring,
   useTransform,
 } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ParticleField } from "@/components/fx/ParticleField";
 import { PremiumButton } from "@/components/ui/PremiumButton";
-import { BRAND, PORTFOLIO, PORTFOLIO_CATEGORIES } from "@/lib/data";
+import { CaseModal } from "@/components/ui/CaseModal";
+import { BRAND, PORTFOLIO, PORTFOLIO_CATEGORIES, type PortfolioItem } from "@/lib/data";
 
 const CATEGORY_PILLS = PORTFOLIO_CATEGORIES.filter((c) => c !== "Все");
 
 // Index works by id for cinema-wall columns.
 const BY_ID = Object.fromEntries(PORTFOLIO.map((p) => [p.id, p]));
 
-// Three editorial columns of works — each column is a vertical marquee.
-// We intentionally mix aspect ratios (1:1 avatars, 16:9 thumbs, 2:1 logo,
-// 1:1 banners) so the wall feels like a curator's mood-board, not a grid.
+// Cinema wall — only 1:1 works so the columns read as a clean mosaic.
+// (Wide DMC and 2:1 Borrlg are excluded; they appear properly proportioned
+// in the Portfolio archive instead.)
 const CINEMA_COLUMNS: Array<{
   ids: string[];
   duration: number; // seconds per full loop
   direction: "up" | "down";
 }> = [
-  {
-    ids: ["p-01", "p-03", "p-05", "p-02", "p-04"],
-    duration: 38,
-    direction: "up",
-  },
-  {
-    ids: ["p-06", "p-04", "p-01", "p-03", "p-05"],
-    duration: 46,
-    direction: "down",
-  },
-  {
-    ids: ["p-02", "p-06", "p-05", "p-04", "p-01"],
-    duration: 32,
-    direction: "up",
-  },
+  { ids: ["p-01", "p-03", "p-02", "p-04"], duration: 44, direction: "up" },
+  { ids: ["p-02", "p-04", "p-01", "p-03"], duration: 56, direction: "down" },
+  { ids: ["p-03", "p-01", "p-04", "p-02"], duration: 38, direction: "up" },
 ];
 
 export function Hero() {
@@ -49,6 +37,7 @@ export function Hero() {
   const mx = useMotionValue(50);
   const my = useMotionValue(50);
   const bgPos = useMotionTemplate`${mx}% ${my}%`;
+  const [openWork, setOpenWork] = useState<PortfolioItem | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -76,8 +65,8 @@ export function Hero() {
       ref={ref}
       className="relative isolate min-h-screen-svh w-full overflow-hidden"
     >
-      {/* Layered background — restrained */}
-      <div className="absolute inset-0 -z-10 bg-ink" />
+      {/* Layered background — body gradient shines through; this is just a faint dark wash */}
+      <div className="absolute inset-0 -z-10 bg-black/30" />
       <motion.div
         aria-hidden
         style={{
@@ -226,7 +215,7 @@ export function Hero() {
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
             className="relative hidden lg:block"
           >
-            <ScrollCinema mx={mx} my={my} />
+            <ScrollCinema onOpenWork={setOpenWork} />
           </motion.aside>
         </motion.div>
 
@@ -264,43 +253,25 @@ export function Hero() {
 
       {/* Bottom edge fade */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-ink" />
+
+      {/* Work-detail modal — opened by clicking any tile in the cinema wall */}
+      <CaseModal item={openWork} onClose={() => setOpenWork(null)} />
     </section>
   );
 }
 
 /* -------------------------------------------------------------------------- *
- *  ScrollCinema — premium cinema-wall of real works                            *
- *  - 3 vertical marquee columns at different speeds and directions             *
- *  - the whole wall is tilted in 3D perspective (subtle, gallery-like)        *
- *  - cursor parallax breathes the tilt                                         *
- *  - top/bottom vignettes fade content into the page                          *
- *  - a soft gold light sweep traverses the wall periodically                  *
+ *  ScrollCinema — premium 1:1 cinema-wall of real works                       *
+ *  - 3 vertical CSS-keyframe marquee columns (GPU only, no JS frame work)     *
+ *  - static perspective tilt (no cursor parallax — zero per-frame cost)      *
+ *  - 1:1 works only so the mosaic reads as a clean gallery, not a junk grid  *
+ *  - every work is a button → opens the full case modal on click             *
  * -------------------------------------------------------------------------- */
 function ScrollCinema({
-  mx,
-  my,
+  onOpenWork,
 }: {
-  mx: ReturnType<typeof useMotionValue<number>>;
-  my: ReturnType<typeof useMotionValue<number>>;
+  onOpenWork: (item: PortfolioItem) => void;
 }) {
-  // smoothed cursor offsets used for global wall parallax (% 0..100 → -1..1)
-  const sx = useSpring(useTransform(mx, (v) => (v - 50) / 50), {
-    stiffness: 50,
-    damping: 20,
-    mass: 0.7,
-  });
-  const sy = useSpring(useTransform(my, (v) => (v - 50) / 50), {
-    stiffness: 50,
-    damping: 20,
-    mass: 0.7,
-  });
-
-  // Subtle 3D tilt — modulated by cursor so the wall "breathes".
-  const rotY = useTransform(sx, (v) => -10 + v * 3.5);
-  const rotX = useTransform(sy, (v) => 4 - v * 2.2);
-  const driftX = useTransform(sx, (v) => v * -10);
-  const driftY = useTransform(sy, (v) => v * -8);
-
   return (
     <div
       className="relative mx-auto aspect-[4/5] w-full max-w-[560px] [perspective:1900px]"
@@ -316,18 +287,15 @@ function ScrollCinema({
         }}
       />
 
-      {/* The tilted wall */}
-      <motion.div
+      {/* The tilted wall — static perspective for performance */}
+      <div
         aria-hidden
-        style={{
-          rotateY: rotY,
-          rotateX: rotX,
-          x: driftX,
-          y: driftY,
-          transformStyle: "preserve-3d",
-          transformOrigin: "55% 50%",
-        }}
         className="absolute inset-0"
+        style={{
+          transform: "perspective(1900px) rotateY(-9deg) rotateX(2deg)",
+          transformOrigin: "55% 50%",
+          transformStyle: "preserve-3d",
+        }}
       >
         <div
           className="grid h-full grid-cols-3 gap-3"
@@ -341,10 +309,11 @@ function ScrollCinema({
               direction={col.direction}
               featured={i === 1}
               priority={i === 0}
+              onOpenWork={onOpenWork}
             />
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Vignette top */}
       <div
@@ -374,33 +343,8 @@ function ScrollCinema({
         }}
       />
 
-      {/* Gold light sweep across the wall */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-30 mix-blend-screen"
-        initial={{ x: "-40%" }}
-        animate={{ x: "140%" }}
-        transition={{
-          duration: 11,
-          ease: "easeInOut",
-          repeat: Infinity,
-          repeatType: "loop",
-          delay: 2,
-        }}
-        style={{
-          background:
-            "linear-gradient(110deg, transparent 38%, rgba(201,163,90,0.14) 50%, transparent 62%)",
-          filter: "blur(10px)",
-        }}
-      />
-
       {/* Floating live label — top */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-        className="absolute right-0 top-3 z-40 flex items-center gap-2 rounded-full border border-bone/10 bg-black/55 px-3 py-1.5 backdrop-blur"
-      >
+      <div className="absolute right-0 top-3 z-40 flex items-center gap-2 rounded-full border border-bone/10 bg-black/55 px-3 py-1.5 backdrop-blur">
         <span className="relative inline-flex h-1.5 w-1.5">
           <span className="absolute inset-0 animate-ping rounded-full bg-gold/70" />
           <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-gold-glow" />
@@ -408,19 +352,14 @@ function ScrollCinema({
         <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-bone/80">
           Подборка работ · 2024 — 2026
         </span>
-      </motion.div>
+      </div>
 
-      {/* Floating frame ticker — bottom-left: machine-style frame counter */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1 }}
-        className="absolute bottom-3 left-0 z-40 flex items-center gap-2 rounded-full border border-bone/10 bg-black/55 px-3 py-1.5 backdrop-blur"
-      >
+      {/* Hint label — bottom-left */}
+      <div className="absolute bottom-3 left-0 z-40 flex items-center gap-2 rounded-full border border-bone/10 bg-black/55 px-3 py-1.5 backdrop-blur">
         <span className="font-mono text-[9px] uppercase tracking-[0.4em] text-bone/70">
-          06 работ · бесконечная лента
+          нажмите для просмотра кейса
         </span>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -431,12 +370,14 @@ function CinemaColumn({
   direction,
   featured,
   priority,
+  onOpenWork,
 }: {
   ids: string[];
   duration: number;
   direction: "up" | "down";
   featured: boolean;
   priority: boolean;
+  onOpenWork: (item: PortfolioItem) => void;
 }) {
   const works = ids
     .map((id) => BY_ID[id])
@@ -445,28 +386,20 @@ function CinemaColumn({
   const list = [...works, ...works];
 
   return (
-    <div
-      className="relative h-full overflow-hidden rounded-[14px]"
-      style={{ transformStyle: "preserve-3d" }}
-    >
-      <motion.div
-        className="flex flex-col gap-3"
-        animate={{
-          y: direction === "up" ? ["0%", "-50%"] : ["-50%", "0%"],
-        }}
-        transition={{
-          duration,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-        }}
+    <div className="relative h-full overflow-hidden rounded-[14px]">
+      <div
+        className={`flex flex-col gap-3 ${direction === "up" ? "animate-cinema-up" : "animate-cinema-down"}`}
+        style={{ ["--cinema-duration" as "width"]: `${duration}s` }}
       >
         {list.map((p, i) => {
           const img = p.image!;
           return (
-            <figure
+            <button
               key={`${p.id}-${i}`}
-              className="relative w-full overflow-hidden rounded-[12px] border border-bone/10 bg-graphite/40 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.02)]"
+              type="button"
+              onClick={() => onOpenWork(p)}
+              aria-label={`Открыть кейс ${p.title}`}
+              className="group relative block w-full overflow-hidden rounded-[12px] border border-bone/10 bg-graphite/40 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.02)] transition-transform duration-300 hover:scale-[1.02] hover:border-gold/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               style={{ aspectRatio: `${img.width} / ${img.height}` }}
             >
               <Image
@@ -474,9 +407,10 @@ function CinemaColumn({
                 alt={img.alt}
                 fill
                 sizes={featured ? "(min-width:1024px) 22vw, 60vw" : "(min-width:1024px) 16vw, 40vw"}
-                className="object-cover"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
                 style={{ objectPosition: img.objectPosition ?? "center" }}
                 priority={priority && i < 2}
+                loading={priority && i < 2 ? "eager" : "lazy"}
               />
               {/* inner sheen */}
               <div
@@ -487,10 +421,15 @@ function CinemaColumn({
                     "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.35) 100%)",
                 }}
               />
-            </figure>
+              {/* hover sheen */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-gold/0 via-gold/0 to-gold/0 transition-colors duration-500 group-hover:from-gold/10 group-hover:to-gold/0"
+              />
+            </button>
           );
         })}
-      </motion.div>
+      </div>
     </div>
   );
 }

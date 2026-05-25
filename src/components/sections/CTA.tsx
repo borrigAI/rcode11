@@ -19,7 +19,7 @@ export function CTA() {
       id="contact"
       aria-label="Contact"
       ref={ref}
-      className="relative isolate overflow-hidden bg-ink"
+      className="relative isolate overflow-hidden"
     >
       {/* Background glow + huge ghost logo */}
       <motion.div
