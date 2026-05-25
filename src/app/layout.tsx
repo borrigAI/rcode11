@@ -87,7 +87,7 @@ export default function RootLayout({
       lang="ru"
       className={`${sans.variable} ${display.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="bg-ink text-bone min-h-full flex flex-col selection:bg-gold/30">
+      <body className="bg-ink text-bone h-full overflow-hidden selection:bg-gold/30">
         {children}
       </body>
     </html>

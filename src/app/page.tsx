@@ -7,29 +7,28 @@ import { Process } from "@/components/sections/Process";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { WhyChoose } from "@/components/sections/WhyChoose";
 import { CTA } from "@/components/sections/CTA";
-import { Footer } from "@/components/sections/Footer";
-import { ScrollProgress } from "@/components/fx/ScrollProgress";
 import { GrainOverlay } from "@/components/fx/Backgrounds";
 import { SpotlightCursor } from "@/components/fx/SpotlightCursor";
+import { SlideDeck, type Slide } from "@/components/ui/SlideDeck";
 
 export default function Home() {
+  const slides: Slide[] = [
+    { id: "top", label: "Студия", element: <Hero /> },
+    { id: "trust", label: "Доверие", element: <Trust /> },
+    { id: "services", label: "Услуги", element: <Services /> },
+    { id: "portfolio", label: "Работы", element: <Portfolio /> },
+    { id: "process", label: "Процесс", element: <Process /> },
+    { id: "testimonials", label: "Отзывы", element: <Testimonials /> },
+    { id: "why", label: "Почему я", element: <WhyChoose /> },
+    { id: "contact", label: "Заказ", element: <CTA /> },
+  ];
+
   return (
     <>
-      <ScrollProgress />
       <GrainOverlay />
       <SpotlightCursor />
       <Navbar />
-      <main className="relative flex flex-1 flex-col">
-        <Hero />
-        <Trust />
-        <Services />
-        <Portfolio />
-        <Process />
-        <Testimonials />
-        <WhyChoose />
-        <CTA />
-      </main>
-      <Footer />
+      <SlideDeck slides={slides} />
     </>
   );
 }
