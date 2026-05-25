@@ -63,7 +63,7 @@ export function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative isolate min-h-screen-svh w-full overflow-hidden"
+      className="relative isolate flex h-full w-full flex-col overflow-hidden"
     >
       {/* Layered background — body gradient shines through; this is just a faint dark wash */}
       <div className="absolute inset-0 -z-10 bg-black/30" />
@@ -113,7 +113,7 @@ export function Hero() {
         </span>
       </div>
 
-      <div className="container-x relative flex min-h-screen-svh flex-col pb-16 pt-32 lg:pt-36">
+      <div className="container-x relative flex h-full flex-col">
         {/* Eyebrow row */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -144,7 +144,7 @@ export function Hero() {
         {/* Headline */}
         <motion.div
           style={{ y: titleY, opacity: titleOpacity }}
-          className="relative mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-[1.35fr_1fr] lg:gap-12 xl:gap-20"
+          className="relative mt-4 grid flex-1 min-h-0 grid-cols-1 gap-6 md:mt-6 lg:grid-cols-[1.35fr_1fr] lg:gap-10 xl:gap-16"
         >
           <div className="relative">
             <motion.h1
@@ -152,12 +152,11 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
               className="font-display font-medium leading-[0.86] tracking-[-0.045em] text-bone text-balance"
-              style={{ fontSize: "clamp(2.5rem, 9vw, 8.5rem)" }}
+              style={{ fontSize: "clamp(2.1rem, 6.5vw, 5.5rem)" }}
             >
               Дизайн,
               <br />
-              который
-              <br />
+              который{" "}
               <span className="text-gradient-gold">продаёт</span>
               <span className="text-bone/40"> за вас.</span>
             </motion.h1>
@@ -166,24 +165,23 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
-              className="mt-8 max-w-[44ch] text-balance text-base leading-relaxed text-mist md:text-lg"
+              className="mt-4 max-w-[52ch] text-balance text-[13px] leading-snug text-mist md:mt-5 md:text-[14px]"
             >
               Аватарки, баннеры, логотипы, превью, карточки товаров, лендинги и Telegram-боты.
-              Заказ — только через FunPay. Бриф занимает 3–5 минут, средний срок
-              сдачи статики — около 4 часов. Лендинги и боты — 3–5 рабочих дней.
+              Заказ — только через FunPay. Бриф 3–5 минут, статика — около 4 часов.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.9 }}
-              className="mt-10 flex flex-wrap gap-3"
+              className="mt-4 flex flex-wrap gap-2"
             >
               {CATEGORY_PILLS.map((c) => (
                 <a
                   key={c}
                   href="#portfolio"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-bone/12 bg-white/[0.015] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-bone/65 transition-colors hover:border-gold/50 hover:text-gold-glow"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-bone/12 bg-white/[0.015] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-bone/65 transition-colors hover:border-gold/50 hover:text-gold-glow md:text-[10px]"
                 >
                   <span className="h-1 w-1 rounded-full bg-gold/60" />
                   {c}
@@ -195,7 +193,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.1 }}
-              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+              className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center md:mt-6"
             >
               <PremiumButton href={BRAND.funpay} variant="primary">
                 Заказать на FunPay
@@ -219,10 +217,11 @@ export function Hero() {
           </motion.aside>
         </motion.div>
 
-        {/* Bottom panel — clean closed rectangle on mobile and desktop */}
+        {/* Bottom panel — clean closed rectangle on mobile and desktop.
+           Margin-bottom keeps it clear of the deck-indicator pill. */}
         <motion.div
           style={{ y: subY, opacity: subOpacity }}
-          className="mt-auto overflow-hidden rounded-2xl border border-line/70 bg-graphite/40 backdrop-blur-md"
+          className="mt-4 overflow-hidden rounded-xl border border-line/70 bg-graphite/40 backdrop-blur-md md:mt-5"
         >
           <div className="grid grid-cols-2 md:grid-cols-4">
             {[
@@ -233,16 +232,16 @@ export function Hero() {
             ].map((m, i) => (
               <div
                 key={m.k}
-                className={`flex flex-col gap-1.5 px-5 py-4 md:px-6 md:py-5 ${
+                className={`flex flex-col gap-1 px-3 py-2.5 md:px-5 md:py-3 ${
                   i % 2 === 1 ? "border-l border-line/60" : ""
                 } ${i < 2 ? "border-b border-line/60 md:border-b-0" : ""} ${
                   i === 2 ? "md:border-l md:border-line/60" : ""
                 } ${i === 3 ? "md:border-l md:border-line/60" : ""}`}
               >
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
+                <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted md:text-[10px]">
                   {m.k}
                 </span>
-                <span className="truncate font-display text-base leading-tight text-bone md:text-lg">
+                <span className="truncate font-display text-sm leading-tight text-bone md:text-base">
                   {m.v}
                 </span>
               </div>
@@ -274,8 +273,8 @@ function ScrollCinema({
 }) {
   return (
     <div
-      className="relative mx-auto aspect-[4/5] w-full max-w-[560px] [perspective:1900px]"
-      style={{ transformStyle: "preserve-3d" }}
+      className="relative mx-auto h-full max-h-full w-full max-w-[560px] [perspective:1900px]"
+      style={{ transformStyle: "preserve-3d", aspectRatio: "4/5" }}
     >
       {/* Floor glow — anchors the wall in space */}
       <div

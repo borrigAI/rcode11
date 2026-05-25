@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { Reveal } from "@/components/ui/Reveal";
 import { BRAND } from "@/lib/data";
 
@@ -37,12 +36,12 @@ export function WhyChoose() {
     <section
       id="why"
       aria-label="Почему Rcode11"
-      className="relative isolate overflow-hidden bg-obsidian py-28 md:py-36"
+      className="relative isolate flex h-full flex-col overflow-hidden bg-obsidian"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.16] mask-radial-center" />
       <div aria-hidden className="absolute -right-32 -bottom-32 h-[40rem] w-[40rem] rounded-full bg-gold/8 blur-3xl" />
 
-      <div className="container-x">
+      <div className="container-x relative">
         {/* Eyebrow row */}
         <Reveal>
           <div className="flex items-center gap-4">
@@ -57,81 +56,68 @@ export function WhyChoose() {
         </Reveal>
 
         {/* Headline + side comparison */}
-        <div className="mt-10 grid items-end gap-12 md:mt-14 md:grid-cols-[1.35fr_1fr] md:gap-16">
+        <div className="mt-4 grid items-end gap-4 md:mt-6 md:grid-cols-[1.4fr_1fr] md:gap-8">
           <Reveal>
-            <h2 className="font-display text-[clamp(2.5rem,6.2vw,5.2rem)] font-medium leading-[0.9] tracking-[-0.04em] text-bone text-balance">
-              Дешёвый лот ≠ дешёвый
-              <br className="hidden md:block" />
-              <span className="text-gradient-gold"> вид.</span>
+            <h2 className="font-display text-[clamp(1.7rem,4vw,3rem)] font-medium leading-[0.96] tracking-[-0.03em] text-bone text-balance">
+              Дешёвый лот ≠ дешёвый{" "}
+              <span className="text-gradient-gold">вид.</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="max-w-md text-[15px] leading-relaxed text-mist md:ml-auto md:text-right">
-              На FunPay много дизайна за ₽100–200. Цена там одинаковая. Разница только в одном —
-              в том, как лот выглядит. У меня лот за ₽{BRAND.entryPrice} зачастую выглядит
-              сильнее, чем у конкурентов за ₽1 000.
+            <p className="max-w-md text-[13px] leading-snug text-mist md:ml-auto md:text-right">
+              На FunPay много дизайна за ₽100–200. Лот за ₽{BRAND.entryPrice} у меня выглядит
+              сильнее конкурентов за ₽1 000.
             </p>
           </Reveal>
         </div>
 
-        {/* Visual comparison — minimal */}
-        <Reveal delay={0.18}>
-          <div className="mt-14 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 md:gap-10">
+        {/* Visual comparison — compact mock lots */}
+        <Reveal delay={0.16}>
+          <div className="mt-3 grid grid-cols-2 gap-3 md:mt-4 md:gap-5">
             <MockLot variant="typical" />
             <MockLot variant="rcode11" />
           </div>
         </Reveal>
 
-        {/* Pillars — editorial manifest list (not card grid) */}
-        <ul className="mt-20 md:mt-28">
+        {/* Pillars — compact 4-column manifest */}
+        <ul className="mt-3 grid grid-cols-2 gap-2 md:mt-4 md:grid-cols-4 md:gap-3">
           {PILLARS.map((p, i) => (
-            <Reveal key={p.n} delay={i * 0.05} as="li">
-              <motion.div
-                whileHover={{ x: 6 }}
-                transition={{ type: "spring", stiffness: 220, damping: 24 }}
-                className="group relative grid grid-cols-[auto_1fr] items-start gap-x-6 gap-y-3 border-t border-line/70 py-8 md:grid-cols-[5rem_minmax(0,1.4fr)_minmax(0,1fr)_auto] md:gap-x-10 md:py-12"
-              >
-                {/* Hover gold underline */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 -top-px h-px origin-left scale-x-0 bg-gradient-to-r from-gold-glow via-gold to-transparent transition-transform duration-500 group-hover:scale-x-100"
-                />
-                {/* Number */}
-                <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-gold md:text-[13px]">
-                  {p.n}
-                </span>
-                {/* Headline */}
-                <h3 className="min-w-0 font-display text-[clamp(1.5rem,3.4vw,2.6rem)] font-light leading-[1.05] tracking-[-0.025em] text-bone transition-colors duration-500 group-hover:text-gold-glow">
+            <Reveal key={p.n} delay={i * 0.04} as="li">
+              <div className="group relative flex h-full flex-col gap-2 rounded-xl border border-line/70 bg-graphite/40 p-3 backdrop-blur-md transition-colors hover:border-gold/50 md:p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold">
+                    {p.n}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/50 bg-gold/[0.06] px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.25em] text-gold-glow md:text-[9px]">
+                    <span className="inline-block h-1 w-1 rounded-full bg-gold-glow" />
+                    {p.pill}
+                  </span>
+                </div>
+                <h3 className="font-display text-[clamp(0.95rem,1.6vw,1.2rem)] font-light leading-[1.15] tracking-[-0.015em] text-bone transition-colors group-hover:text-gold-glow">
                   {p.headline}
                 </h3>
-                {/* Body */}
-                <p className="col-span-2 max-w-md text-[14px] leading-relaxed text-mist md:col-span-1 md:text-[15px]">
+                <p className="text-[11px] leading-snug text-mist md:text-[12px]">
                   {p.body}
                 </p>
-                {/* Pill */}
-                <span className="col-span-2 inline-flex w-fit items-center gap-2 rounded-full border border-gold/50 bg-gold/[0.06] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow md:col-span-1">
-                  <span className="inline-block h-1 w-1 rounded-full bg-gold-glow" />
-                  {p.pill}
-                </span>
-              </motion.div>
+              </div>
             </Reveal>
           ))}
-          <li aria-hidden className="block h-px w-full bg-line/70" />
         </ul>
       </div>
     </section>
   );
 }
 
-/* Minimal lot mockup — visual story, not text. */
+/* Minimal lot mockup — visual story, not text. Phase E: left mock has a
+   typed-out title via CSS step-reveal; right one is drawn instantly. */
 function MockLot({ variant }: { variant: "typical" | "rcode11" }) {
   const isPremium = variant === "rcode11";
   return (
     <article
       className={
         isPremium
-          ? "relative overflow-hidden rounded-[26px] border border-gold/35 bg-gradient-to-br from-[#1a1308] via-graphite to-graphite p-7 md:p-9"
-          : "relative overflow-hidden rounded-[26px] border border-line/70 bg-graphite/80 p-7 md:p-9"
+          ? "relative overflow-hidden rounded-2xl border border-gold/35 bg-gradient-to-br from-[#1a1308] via-graphite to-graphite p-3 md:p-4"
+          : "relative overflow-hidden rounded-2xl border border-line/70 bg-graphite/80 p-3 md:p-4"
       }
     >
       {isPremium && (
@@ -141,17 +127,18 @@ function MockLot({ variant }: { variant: "typical" | "rcode11" }) {
         </>
       )}
 
-      {/* header chip + price */}
+      {/* header chip + price — Phase E: typed-out "Обычный лот", instant Rcode11 */}
       <div className="relative flex items-center justify-between">
-        <span
-          className={
-            isPremium
-              ? "font-mono text-[10px] uppercase tracking-[0.35em] text-gold"
-              : "font-mono text-[10px] uppercase tracking-[0.35em] text-mist/70"
-          }
-        >
-          {isPremium ? "Rcode11" : "Обычный лот"}
-        </span>
+        {isPremium ? (
+          <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-gold">
+            Rcode11
+          </span>
+        ) : (
+          <span className="flex items-center font-mono text-[10px] uppercase tracking-[0.35em] text-mist/70">
+            <span className="animate-typing-11">Обычный лот</span>
+            <span aria-hidden className="ml-0.5 inline-block h-3 w-[1px] bg-mist/70 animate-caret" />
+          </span>
+        )}
         <span
           className={
             isPremium
@@ -165,7 +152,7 @@ function MockLot({ variant }: { variant: "typical" | "rcode11" }) {
 
       {/* visual area — simulated avatar/banner shape */}
       <div
-        className={`relative mt-6 aspect-[5/4] overflow-hidden rounded-[18px] ${
+        className={`relative mt-2 aspect-[16/9] overflow-hidden rounded-xl md:mt-3 ${
           isPremium
             ? "bg-gradient-to-br from-[#2a1f10] via-[#120c05] to-[#080603]"
             : "bg-gradient-to-br from-[#1d1d1d] via-[#141414] to-[#101010]"
@@ -212,9 +199,9 @@ function MockLot({ variant }: { variant: "typical" | "rcode11" }) {
       </div>
 
       {/* bottom row */}
-      <div className="relative mt-5 flex items-center justify-between text-[12px]">
+      <div className="relative mt-2 flex items-center justify-between text-[10px] md:text-[11px]">
         <span className={isPremium ? "text-bone/85" : "text-mist/70"}>
-          {isPremium ? "Сдача за ~4 часа · 5.0 рейтинг" : "Сроки плавающие · без портфолио"}
+          {isPremium ? "Сдача ~4ч · 5.0" : "Плавающие сроки"}
         </span>
         {isPremium && (
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow">

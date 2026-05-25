@@ -267,8 +267,10 @@ body::after {
   min-height: 0 !important;
   max-height: 100%;
   overflow-y: auto;
-  padding-top: clamp(80px, 10vh, 120px) !important;
-  padding-bottom: clamp(76px, 9vh, 110px) !important;
+  /* Top: clear the floating Navbar (~64px). Bottom: clear the deck
+     indicator pill (~36px + 20px from bottom = 56px) plus breathing room. */
+  padding-top: clamp(64px, 7vh, 84px) !important;
+  padding-bottom: clamp(72px, 8vh, 96px) !important;
 }
 /* Hide scrollbar for a clean look — content remains keyboard / wheel
    scrollable inside the slide if it truly overflows. */
@@ -279,6 +281,100 @@ body::after {
 .deck-slide > * {
   scrollbar-width: none;
 }
+
+/* Phase E — slide-local animated illustrations. Pure CSS keyframes,
+   reduced-motion safe (the global @media block above kills durations). */
+
+/* Pulse rings — used behind «5.0» in Trust. */
+@keyframes ring-pulse {
+  0%   { transform: scale(0.7);  opacity: 0.55; }
+  70%  { transform: scale(1.25); opacity: 0;    }
+  100% { transform: scale(1.25); opacity: 0;    }
+}
+.animate-ring-pulse {
+  animation: ring-pulse 5.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Slow upward gold particles (Trust). */
+@keyframes gold-rise {
+  0%   { transform: translate3d(0, 0, 0)       scale(0.9); opacity: 0;   }
+  10%  {                                                    opacity: 0.7; }
+  90%  {                                                    opacity: 0.7; }
+  100% { transform: translate3d(0, -160px, 0)  scale(1.1); opacity: 0;   }
+}
+.animate-gold-rise { animation: gold-rise var(--rise-duration, 12s) linear infinite; }
+
+/* Diagonal sweeping shimmer (CTA «Заказать» gold word). */
+@keyframes gold-sweep {
+  0%   { background-position: 200% 0; }
+  50%  { background-position: -200% 0; }
+  100% { background-position: -200% 0; }
+}
+.animate-gold-sweep {
+  background:
+    linear-gradient(120deg,
+      #8a6a2d 0%,
+      #c9a35a 35%,
+      #f0dba6 45%,
+      #ffeec6 50%,
+      #f0dba6 55%,
+      #c9a35a 65%,
+      #8a6a2d 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: gold-sweep 6s linear infinite;
+}
+
+/* Slow vertical drift (Testimonials giant quote). */
+@keyframes drift-y {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, 18px, 0); }
+}
+.animate-drift-y { animation: drift-y 18s ease-in-out infinite; }
+
+/* Blueprint engineering grid + ruler ticks (Portfolio). */
+.bp-grid {
+  background-image:
+    linear-gradient(rgba(201, 163, 90, 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 163, 90, 0.10) 1px, transparent 1px),
+    linear-gradient(rgba(201, 163, 90, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 163, 90, 0.04) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+}
+
+/* Typing caret used in WhyChoose left column. */
+@keyframes caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-caret { animation: caret-blink 0.95s steps(1) infinite; }
+
+/* Typing reveal — uses steps() on width over 11ch (for "Обычный лот"). */
+@keyframes typing-11 {
+  0%, 4%   { width: 0;   }
+  35%, 100% { width: 11ch; }
+}
+.animate-typing-11 {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 11ch;
+  animation: typing-11 9s steps(11, end) infinite;
+}
+
+/* Faint gold pulse glow for Process active step. */
+@keyframes step-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,163,90,0.45); }
+  50%      { box-shadow: 0 0 0 12px rgba(201,163,90,0); }
+}
+.animate-step-pulse { animation: step-pulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

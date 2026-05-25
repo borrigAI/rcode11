@@ -112,18 +112,50 @@ export function SlideDeck({ slides }: { slides: Slide[] }) {
   }, [go]);
 
   // Hash-link support — if user lands on `#portfolio` go directly to it.
+  // Browsers natively try to `scrollIntoView` the element matching the hash,
+  // and our slide container is `overflow:hidden` — that "hidden" overflow is
+  // still programmatically scrollable, so the browser silently scrolls the
+  // deck horizontally *in addition* to our JS-driven translate. We undo any
+  // such scroll so the active slide is the one we picked.
   useEffect(() => {
     const map = new Map(slides.map((s, i) => [s.id, i]));
+    const resetScroll = () => {
+      const root = trackRef.current?.parentElement;
+      if (root) {
+        root.scrollLeft = 0;
+        root.scrollTop = 0;
+      }
+    };
     const sync = () => {
       const h = window.location.hash.replace("#", "");
       if (!h) return;
       const i = map.get(h);
       if (i != null) goTo(i);
+      // Run on next frame too — Safari/Chrome can re-trigger the
+      // implicit scroll after hashchange handlers complete.
+      resetScroll();
+      requestAnimationFrame(resetScroll);
     };
     sync();
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
   }, [slides, goTo]);
+
+  // Defensive: any time the deck container picks up a stray horizontal
+  // scroll (e.g. user tabs into a slide that's off-screen, browser focus
+  // scroll), force it back to 0 — the slide deck is fully transform-driven.
+  useEffect(() => {
+    const root = trackRef.current?.parentElement;
+    if (!root) return;
+    const onScroll = () => {
+      if (root.scrollLeft !== 0 || root.scrollTop !== 0) {
+        root.scrollLeft = 0;
+        root.scrollTop = 0;
+      }
+    };
+    root.addEventListener("scroll", onScroll, { passive: true });
+    return () => root.removeEventListener("scroll", onScroll);
+  }, []);
 
   // First-time hint — auto-dismiss after 6s
   useEffect(() => {

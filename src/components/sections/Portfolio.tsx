@@ -67,11 +67,29 @@ export function Portfolio() {
     <section
       id="portfolio"
       aria-label="Портфолио"
-      className="relative isolate overflow-clip py-24 md:py-32"
+      className="relative isolate flex h-full flex-col overflow-clip"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.14] mask-radial-center" />
+      {/* Phase E — blueprint engineering grid behind the cards */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 bp-grid opacity-[0.55] mask-radial-center" />
+      {/* Top + bottom ruler ticks */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-4 opacity-50"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(to right, rgba(201,163,90,0.35) 0 1px, transparent 1px 24px)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-4 opacity-50"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(to right, rgba(201,163,90,0.35) 0 1px, transparent 1px 24px)",
+        }}
+      />
 
-      <div className="container-x">
+      <div className="container-x relative">
         {/* Eyebrow row */}
         <Reveal>
           <div className="flex items-center gap-4">
@@ -80,30 +98,28 @@ export function Portfolio() {
             </span>
             <span className="hidden h-px flex-1 bg-gradient-to-r from-gold/30 via-line/60 to-transparent md:block" />
             <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted md:inline">
-              выберите категорию · листайте вправо
+              листайте внутри · NDA-кейсы отмечены
             </span>
           </div>
         </Reveal>
 
-        <div className="mt-10 grid items-end gap-8 md:mt-14 md:grid-cols-[1.2fr_1fr]">
+        <div className="mt-3 flex flex-col gap-2 md:mt-4 md:flex-row md:items-end md:justify-between md:gap-8">
           <Reveal>
-            <h2 className="font-display text-[clamp(2.3rem,5.6vw,4.5rem)] font-medium leading-[0.94] tracking-[-0.035em] text-bone text-balance">
-              Что вас интересует
-              <br />
+            <h2 className="font-display text-[clamp(1.6rem,3.6vw,2.6rem)] font-medium leading-[0.98] tracking-[-0.03em] text-bone text-balance">
+              Что вас интересует{" "}
               <span className="text-gradient-gold">из работ?</span>
             </h2>
           </Reveal>
-          <Reveal delay={0.12}>
-            <p className="max-w-md text-[15px] leading-relaxed text-mist md:ml-auto md:text-right">
-              Выберите направление — ниже появятся реальные работы. Листайте вправо, чтобы
-              увидеть все. Часть проектов под NDA — обозначены отдельно.
+          <Reveal delay={0.1}>
+            <p className="max-w-md text-[13px] leading-snug text-mist md:max-w-sm md:text-right">
+              Выберите направление — ниже появятся реальные работы.
             </p>
           </Reveal>
         </div>
       </div>
 
-      {/* Category picker — full-bleed scroll on mobile */}
-      <div className="mt-10 md:mt-14">
+      {/* Category picker — chips tightly under heading */}
+      <div className="mt-3 md:mt-4 relative">
         <div
           className="no-scrollbar flex gap-2 overflow-x-auto"
           style={{
@@ -145,7 +161,7 @@ export function Portfolio() {
       </div>
 
       {/* Carousel header — counter + arrows */}
-      <div className="container-x mt-8 flex items-center justify-between gap-4">
+      <div className="container-x mt-3 relative flex items-center justify-between gap-4 md:mt-4">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/55">
           {position.current.toString().padStart(2, "0")} /{" "}
           {position.total.toString().padStart(2, "0")}
@@ -159,11 +175,11 @@ export function Portfolio() {
       </div>
 
       {/* Track */}
-      <div className="relative mt-4">
+      <div className="relative mt-3 flex-1 min-h-0">
         <div
           ref={trackRef}
           onScroll={onScroll}
-          className="no-scrollbar relative flex gap-5 overflow-x-auto scroll-smooth pb-4 [scroll-snap-type:x_mandatory] md:gap-6"
+          className="no-scrollbar relative flex h-full items-center gap-5 overflow-x-auto scroll-smooth [scroll-snap-type:x_mandatory] md:gap-6"
           style={{
             paddingLeft: "max(1.375rem, 4.2vw)",
             paddingRight: "max(1.375rem, 4.2vw)",
@@ -198,7 +214,7 @@ export function Portfolio() {
                   )}
                   style={{
                     // height responsive — width follows aspect ratio so work renders whole, no cropping
-                    height: "clamp(360px, 60vh, 600px)",
+                    height: "clamp(240px, 48vh, 440px)",
                     aspectRatio: `${ratio}`,
                   }}
                 >

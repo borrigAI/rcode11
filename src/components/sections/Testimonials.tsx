@@ -25,12 +25,25 @@ export function Testimonials() {
     <section
       id="testimonials"
       aria-label="Отзывы"
-      className="relative isolate overflow-clip py-24 md:py-32"
+      className="relative isolate flex h-full flex-col overflow-clip"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.13] mask-radial-center" />
       <div aria-hidden className="absolute -left-32 top-1/3 h-[40rem] w-[40rem] rounded-full bg-gold/[0.07] blur-3xl" />
 
-      <div className="container-x">
+      {/* Phase E — gigantic gold quote that slowly drifts */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+      >
+        <span
+          className="font-display font-medium leading-none text-gradient-gold opacity-[0.09] animate-drift-y"
+          style={{ fontSize: "clamp(20rem, 50vw, 56rem)" }}
+        >
+          “
+        </span>
+      </div>
+
+      <div className="container-x relative flex h-full flex-col">
         {/* Eyebrow row */}
         <Reveal>
           <div className="flex items-center gap-4">
@@ -44,34 +57,32 @@ export function Testimonials() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid items-end gap-8 md:mt-14 md:grid-cols-[1.2fr_1fr]">
+        <div className="mt-4 flex flex-col gap-2 md:mt-6 md:flex-row md:items-end md:justify-between md:gap-8">
           <Reveal>
-            <h2 className="font-display text-[clamp(2.3rem,5.6vw,4.5rem)] font-medium leading-[0.94] tracking-[-0.035em] text-bone text-balance">
-              Голос
-              <br />
+            <h2 className="font-display text-[clamp(1.7rem,4vw,3rem)] font-medium leading-[0.96] tracking-[-0.03em] text-bone text-balance">
+              Голос{" "}
               <span className="text-gradient-gold">FunPay-клиентов.</span>
             </h2>
           </Reveal>
-          <Reveal delay={0.12}>
-            <p className="max-w-md text-[15px] leading-relaxed text-mist md:ml-auto md:text-right">
-              Без подбора в свою пользу. Ниже — реальные формулировки. Клиенты в один голос
-              отмечают скорость, точность по ТЗ и визуал на класс выше площадки.
+          <Reveal delay={0.1}>
+            <p className="max-w-md text-[13px] leading-snug text-mist md:max-w-sm md:text-right">
+              Без подбора в свою пользу. Реальные формулировки с FunPay.
             </p>
           </Reveal>
         </div>
 
         {/* Featured quote */}
         <div
-          className="mt-12 md:mt-16"
+          className="mt-4 flex-1 min-h-0 md:mt-6"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          <Reveal>
-            <article className="relative overflow-hidden rounded-[28px] border border-line/70 bg-gradient-to-br from-graphite to-[#0d0d0d] p-7 md:p-12">
+          <Reveal className="h-full">
+            <article className="relative h-full overflow-hidden rounded-2xl border border-line/70 bg-gradient-to-br from-graphite to-[#0d0d0d] p-5 md:p-8">
               <div aria-hidden className="pointer-events-none absolute inset-0 bg-noise opacity-[0.05] mix-blend-overlay" />
               <div aria-hidden className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gold/15 blur-3xl" />
 
-              <div className="relative flex flex-col gap-8 md:gap-12">
+              <div className="relative flex h-full flex-col gap-4 md:gap-5">
                 <div className="flex items-center justify-between">
                   <Stars />
                   <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
@@ -79,7 +90,7 @@ export function Testimonials() {
                   </span>
                 </div>
 
-                <div className="min-h-[180px] md:min-h-[220px]">
+                <div className="flex-1 min-h-0">
                   <AnimatePresence mode="wait">
                     <motion.blockquote
                       key={active}
@@ -87,14 +98,14 @@ export function Testimonials() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                      className="font-display text-[clamp(1.5rem,3vw,2.4rem)] font-light leading-[1.18] tracking-[-0.015em] text-bone text-balance"
+                      className="font-display text-[clamp(1.15rem,2.4vw,1.85rem)] font-light leading-[1.2] tracking-[-0.015em] text-bone text-balance"
                     >
                       «{current.quote}»
                     </motion.blockquote>
                   </AnimatePresence>
                 </div>
 
-                <div className="flex flex-col items-start justify-between gap-5 border-t border-line/70 pt-6 md:flex-row md:items-center">
+                <div className="flex flex-col items-start justify-between gap-3 border-t border-line/70 pt-3 md:flex-row md:items-center md:pt-4">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={`meta-${active}`}
@@ -149,23 +160,6 @@ export function Testimonials() {
           </Reveal>
         </div>
 
-        {/* Footnote — link to all reviews */}
-        <Reveal delay={0.2}>
-          <div className="mt-10 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <p className="max-w-md text-[13px] text-muted">
-              Реальные отзывы с FunPay. На профиле — 750+ оценок, все 5.0 без единой просадки.
-            </p>
-            <a
-              href="https://funpay.com/users/9159608/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] text-gold-glow transition-colors hover:bg-gold/20"
-            >
-              Все отзывы на FunPay
-              <span aria-hidden>↗</span>
-            </a>
-          </div>
-        </Reveal>
       </div>
     </section>
   );

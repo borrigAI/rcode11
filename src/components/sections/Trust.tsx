@@ -29,12 +29,12 @@ export function Trust() {
     <section
       id="trust"
       aria-label="Доверие"
-      className="relative isolate overflow-clip bg-obsidian py-24 md:py-32"
+      className="relative isolate flex h-full flex-col overflow-clip bg-obsidian"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.14] mask-radial-center" />
       <div aria-hidden className="absolute -top-40 left-1/2 h-[36rem] w-[60rem] -translate-x-1/2 rounded-full bg-gold/[0.08] blur-3xl" />
 
-      <div className="container-x">
+      <div className="container-x relative">
         {/* Eyebrow row */}
         <Reveal>
           <div className="flex items-center gap-4">
@@ -49,26 +49,24 @@ export function Trust() {
         </Reveal>
 
         {/* Editorial composition: big rating + accompanying paragraph */}
-        <div className="mt-12 grid items-end gap-12 lg:mt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
+        <div className="mt-6 grid items-end gap-8 lg:mt-8 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
           <Reveal>
             <RatingAnchor />
           </Reveal>
 
           <Reveal delay={0.12}>
             <div className="flex flex-col gap-8">
-              <h2 className="font-display text-[clamp(2.3rem,5.4vw,4rem)] font-medium leading-[0.94] tracking-[-0.035em] text-bone text-balance">
-                Не «обещаю».
-                <br />
+              <h2 className="font-display text-[clamp(1.7rem,4vw,3rem)] font-medium leading-[0.96] tracking-[-0.03em] text-bone text-balance">
+                Не «обещаю».{" "}
                 <span className="text-gradient-gold">Уже доказал.</span>
               </h2>
-              <p className="max-w-xl text-[15px] leading-relaxed text-mist md:text-base">
-                Два года на FunPay, один живой аккаунт без обнуления, тысячи закрытых сделок и
-                ни одного «исчез и не отдал». Статика уходит в среднем за 4 часа, лендинги и
-                боты — 3–5 рабочих дней. Рабочее время — 05:00–17:00 МСК.
+              <p className="max-w-xl text-[13px] leading-snug text-mist md:text-[14px]">
+                Два года на FunPay, один живой аккаунт, тысячи закрытых сделок. Статика —
+                в среднем за 4 часа, лендинги и боты — 3–5 дней. 05:00–17:00 МСК.
               </p>
 
               {/* Mini KPI row — minimal, editorial, no card chrome */}
-              <ul className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-line/70 pt-8 sm:grid-cols-4">
+              <ul className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line/70 pt-5 sm:grid-cols-4">
                 {KPI.map((k) => (
                   <li key={k.value} className="flex flex-col gap-1.5 min-w-0">
                     <span className="font-display text-[clamp(1.75rem,3.2vw,2.4rem)] font-light leading-none tracking-[-0.035em] text-gradient-bone">
@@ -89,7 +87,7 @@ export function Trust() {
       </div>
 
       {/* Marquee proof strip */}
-      <div className="relative mt-20 overflow-hidden border-y border-line/60 bg-ink/40 py-5 md:mt-28">
+      <div className="relative mt-6 overflow-hidden border-y border-line/60 bg-ink/40 py-3 md:mt-8 md:py-4">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-obsidian to-transparent"
@@ -129,7 +127,53 @@ function RatingAnchor() {
         className="pointer-events-none absolute -inset-10 -z-[1] rounded-[40px] bg-gradient-to-br from-gold/15 via-transparent to-transparent blur-3xl"
       />
 
-      <div className="relative flex flex-col items-start gap-6">
+      {/* Phase E — pulse rings behind the 5.0 */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-[1] hidden -translate-x-1/2 -translate-y-1/2 md:block"
+        style={{ width: "clamp(12rem, 28vw, 24rem)", height: "clamp(12rem, 28vw, 24rem)" }}
+      >
+        <span
+          className="absolute inset-0 rounded-full border border-gold/40 animate-ring-pulse"
+          style={{ animationDelay: "0s" }}
+        />
+        <span
+          className="absolute inset-0 rounded-full border border-gold/30 animate-ring-pulse"
+          style={{ animationDelay: "1.8s" }}
+        />
+        <span
+          className="absolute inset-0 rounded-full border border-gold/20 animate-ring-pulse"
+          style={{ animationDelay: "3.6s" }}
+        />
+      </div>
+
+      {/* Phase E — slow upward gold particle stream */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-[1] hidden overflow-hidden md:block"
+      >
+        {[
+          { left: "8%",  delay: 0,    dur: 13 },
+          { left: "18%", delay: 2.4,  dur: 16 },
+          { left: "32%", delay: 5,    dur: 12 },
+          { left: "46%", delay: 0.8,  dur: 18 },
+          { left: "58%", delay: 3.2,  dur: 14 },
+          { left: "72%", delay: 6.1,  dur: 15 },
+          { left: "86%", delay: 1.3,  dur: 17 },
+        ].map((p) => (
+          <span
+            key={p.left}
+            className="absolute bottom-0 h-1 w-1 rounded-full bg-gold-glow shadow-[0_0_8px_2px_rgba(233,212,161,0.5)] animate-gold-rise"
+            style={{
+              left: p.left,
+              animationDelay: `${p.delay}s`,
+              ['--rise-duration' as string]: `${p.dur}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative flex flex-col items-start gap-4">
         {/* Stars row */}
         <div className="flex items-center gap-3">
           <BigStars />
@@ -142,7 +186,7 @@ function RatingAnchor() {
         <div className="relative flex items-end gap-3 md:gap-5">
           <span
             className="font-display font-light leading-[0.84] tracking-[-0.05em] text-gradient-gold"
-            style={{ fontSize: "clamp(7rem, 22vw, 18rem)" }}
+            style={{ fontSize: "clamp(5.5rem, 18vw, 14rem)" }}
           >
             5.0
           </span>

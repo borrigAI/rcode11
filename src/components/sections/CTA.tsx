@@ -19,7 +19,7 @@ export function CTA() {
       id="contact"
       aria-label="Contact"
       ref={ref}
-      className="relative isolate overflow-hidden"
+      className="relative isolate flex h-full flex-col overflow-hidden"
     >
       {/* Background glow + huge ghost logo */}
       <motion.div
@@ -41,7 +41,7 @@ export function CTA() {
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-[0.18] mask-radial-center" />
       <div aria-hidden className="absolute -left-32 -top-32 h-[40rem] w-[40rem] rounded-full bg-gold/[0.06] blur-3xl" />
 
-      <div className="container-x relative pt-28 pb-32 md:pt-40 md:pb-44">
+      <div className="container-x relative flex h-full flex-col">
         {/* Eyebrow */}
         <Reveal>
           <div className="flex items-center gap-4">
@@ -56,26 +56,26 @@ export function CTA() {
         </Reveal>
 
         {/* Editorial dramatic headline — left-aligned, asymmetric */}
-        <motion.div style={{ y: headlineY }} className="mt-12 md:mt-16 max-w-[18ch]">
+        <motion.div style={{ y: headlineY }} className="mt-6 md:mt-8 max-w-[18ch]">
           <Reveal>
-            <h2 className="font-display font-medium leading-[0.84] tracking-[-0.05em] text-bone text-balance"
-                style={{ fontSize: "clamp(3rem, 12vw, 11rem)" }}>
-              Закажите
+            <h2 className="font-display font-medium leading-[0.86] tracking-[-0.05em] text-bone text-balance"
+                style={{ fontSize: "clamp(2.4rem, 9vw, 7.5rem)" }}>
+              <span className="animate-gold-sweep">Закажите</span>
               <br />
-              <span className="text-gradient-gold">лот.</span>
+              <span className="text-bone/85">лот.</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-mist md:text-base">
-              Если читали досюда — вы уже понимаете, что цена не равна виду. Я закрыл 1000+ сделок
-              на FunPay с рейтингом 5.0. Стартую от ₽{BRAND.entryPrice}.
+            <p className="mt-4 max-w-xl text-[13px] leading-snug text-mist md:text-[14px]">
+              Цена не равна виду. 1000+ сделок, 5.0 на FunPay, стартую
+              от ₽{BRAND.entryPrice}.
             </p>
           </Reveal>
         </motion.div>
 
         {/* Single dominant CTA — anchored bottom-right of headline column */}
         <Reveal delay={0.22}>
-          <div className="mt-10 flex flex-col items-start gap-5 md:mt-12 md:flex-row md:items-center">
+          <div className="mt-6 flex flex-col items-start gap-3 md:mt-8 md:flex-row md:items-center">
             <PremiumButton href={BRAND.funpay} variant="primary">
               Открыть мой профиль на FunPay
               <span aria-hidden>↗</span>
@@ -97,7 +97,7 @@ export function CTA() {
 
         {/* Bottom rail — large editorial KPI strip, single line, no card-grid */}
         <Reveal delay={0.3}>
-          <div className="mt-20 grid grid-cols-2 gap-x-4 gap-y-8 border-t border-line/70 pt-10 md:mt-28 md:grid-cols-4 md:gap-x-8">
+          <div className="mt-auto grid grid-cols-2 gap-x-4 gap-y-3 border-t border-line/70 pt-4 md:grid-cols-4 md:gap-x-8 md:pt-5">
             {[
               { k: "Площадка", v: "FunPay", sub: "#9159608" },
               { k: "Рейтинг", v: `${BRAND.rating}`, sub: "5.0 / 5.00 · 750+ оценок" },
