@@ -1,0 +1,444 @@
+export const BRAND = {
+  name: "Rcode11",
+  shortName: "R11",
+  tagline: "Не просто дизайн. Восприятие.",
+  taglineAlt: "Визуальные системы, которые продают за вас.",
+  subTagline:
+    "Аватарки, баннеры, логотипы, превью, карточки товаров и лендинги под заказ для тех, кто хочет выглядеть сильнее всех на FunPay.",
+  experienceYears: 2,
+  reviews: 750,
+  orders: 1000,
+  rating: 5,
+  repeatRate: 100,
+  entryPrice: 49,
+  funpay: "https://funpay.com/users/9159608/",
+  telegram: "https://funpay.com/users/9159608/",
+  telegramHandle: "FunPay · @rcode11",
+  email: "studio@rcode11.com",
+  domain: "rcode11.studio",
+} as const;
+
+export const NAV_LINKS = [
+  { label: "Работы", href: "#portfolio" },
+  { label: "Услуги", href: "#services" },
+  { label: "Процесс", href: "#process" },
+  { label: "Отзывы", href: "#testimonials" },
+  { label: "Контакты", href: "#contact" },
+] as const;
+
+export type PortfolioCategory =
+  | "Аватарки"
+  | "Баннеры"
+  | "Логотипы"
+  | "Превью"
+  | "Карточки товаров";
+
+export type PortfolioKind =
+  | "avatar"
+  | "banner"
+  | "logo"
+  | "thumbnail"
+  | "product-card";
+
+export type PortfolioImage = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  objectPosition?: string;
+};
+
+export type PortfolioItem = {
+  id: string;
+  title: string;
+  client: string;
+  category: PortfolioCategory;
+  year: number;
+  metric: string;
+  accent: "gold" | "violet" | "crimson" | "ice" | "ember";
+  layout: "wide" | "tall" | "square";
+  kind: PortfolioKind;
+  copy: string;
+  ticker: string;
+  image?: PortfolioImage;
+  status?: "live" | "nda";
+};
+
+export const PORTFOLIO: PortfolioItem[] = [
+  {
+    id: "p-01",
+    title: "Liquid",
+    client: "Liquid · музыкальный артист",
+    category: "Аватарки",
+    year: 2026,
+    metric: "Cover · 1:1",
+    accent: "crimson",
+    layout: "square",
+    kind: "avatar",
+    copy: "Аватарка и cover-artwork для музыкального артиста. Чёрный ангел в багровом ореоле — один образ для PFP, обложки релиза и баннера соцсетей.",
+    ticker: "AVATAR · 1:1 · 1500px",
+    status: "live",
+    image: {
+      src: "/portfolio/liquid.webp",
+      width: 1500,
+      height: 1500,
+      alt: "Liquid — аватарка-обложка с ангелом в багровом ореоле",
+    },
+  },
+  {
+    id: "p-02",
+    title: "Sigaretqa",
+    client: "Sigaretqa · музыкальный артист",
+    category: "Аватарки",
+    year: 2026,
+    metric: "Cover · 1:1",
+    accent: "ember",
+    layout: "square",
+    kind: "avatar",
+    copy: "Аватарка-обложка с объёмным 3D-леттерингом для музыкального артиста. Жёлтое имя на фоне ночной улицы — узнаётся в плейлисте с первого кадра.",
+    ticker: "AVATAR · 1:1 · 1600px",
+    status: "live",
+    image: {
+      src: "/portfolio/sigaretqa.webp",
+      width: 1600,
+      height: 1600,
+      alt: "Sigaretqa — аватарка с 3D-леттерингом и автомобилем в переулке",
+    },
+  },
+  {
+    id: "p-03",
+    title: "NEWROX Team",
+    client: "NEWROX · команда",
+    category: "Баннеры",
+    year: 2026,
+    metric: "Brand-баннер",
+    accent: "ice",
+    layout: "square",
+    kind: "banner",
+    copy: "Кинематографичный баннер команды NEWROX — вертолёты, спорткары, неоновая вывеска. Используется как обложка Telegram, шапка YouTube и анонс-визуал для соцсетей.",
+    ticker: "BANNER · 1600×1600",
+    status: "live",
+    image: {
+      src: "/portfolio/newrox-team.webp",
+      width: 1600,
+      height: 1600,
+      alt: "NEWROX TEAM — баннер с вертолётами, спорткарами и неоновой вывеской",
+    },
+  },
+  {
+    id: "p-04",
+    title: "Crypto Felong Analytics",
+    client: "Crypto Felong · аналитика",
+    category: "Баннеры",
+    year: 2026,
+    metric: "Channel cover",
+    accent: "ember",
+    layout: "square",
+    kind: "banner",
+    copy: "Баннер для аналитического крипто-канала. Тёмный спорткар с Bitcoin-акцентами — премиум-визуал, который держит лояльную аудиторию на одной волне с контентом.",
+    ticker: "BANNER · 1600×1600",
+    status: "live",
+    image: {
+      src: "/portfolio/crypto-felong.webp",
+      width: 1600,
+      height: 1600,
+      alt: "Crypto Felong Analytics — баннер с чёрным спорткаром и Bitcoin-акцентами",
+    },
+  },
+  {
+    id: "p-05",
+    title: "Borrlg",
+    client: "Borrlg · сборка ПК",
+    category: "Логотипы",
+    year: 2026,
+    metric: "Brand mark",
+    accent: "gold",
+    layout: "wide",
+    kind: "logo",
+    copy: "Логотип-знак для бренда сборки игровых ПК. Объёмная буква-моноблок + grotesque-леттеринг. Один знак, который работает на сайте, упаковке, ТВ-картинке и аватаре.",
+    ticker: "LOGO · WORDMARK · 2:1",
+    status: "live",
+    image: {
+      src: "/portfolio/borrlg-logo.webp",
+      width: 1600,
+      height: 800,
+      alt: "Borrlg — логотип бренда сборки игровых ПК",
+    },
+  },
+  {
+    id: "p-06",
+    title: "Как DMC спасла жанр",
+    client: "Видеоэссе · игровая публицистика",
+    category: "Превью",
+    year: 2026,
+    metric: "YouTube · 16:9",
+    accent: "crimson",
+    layout: "wide",
+    kind: "thumbnail",
+    copy: "Превью YouTube для видеоэссе о Devil May Cry. Слом-эффект, символика жанра (надгробие vs Данте в эфире кровавого вихря) и крупный wordmark — палец не пролетает мимо.",
+    ticker: "YT · 1280×720 · ВИДЕОЭССЕ",
+    status: "live",
+    image: {
+      src: "/portfolio/dmc-zhanr.webp",
+      width: 1600,
+      height: 900,
+      alt: "Превью YouTube «Как DMC спасла жанр» — Данте на фоне готического кладбища",
+      objectPosition: "right center",
+    },
+  },
+  {
+    id: "p-07",
+    title: "Карточка под NDA",
+    client: "Premium-маркетплейс",
+    category: "Карточки товаров",
+    year: 2026,
+    metric: "В работе",
+    accent: "gold",
+    layout: "tall",
+    kind: "product-card",
+    copy: "Карточка товара под премиум-сегмент маркетплейса. Кейс под NDA до релиза линейки — публикую после выхода в продажу.",
+    ticker: "WB · 900×1200",
+    status: "nda",
+  },
+  {
+    id: "p-08",
+    title: "Карточка под NDA",
+    client: "DTC-бренд · лимитка",
+    category: "Карточки товаров",
+    year: 2026,
+    metric: "Limited drop",
+    accent: "violet",
+    layout: "tall",
+    kind: "product-card",
+    copy: "Карточки для лимитированной коллекции DTC-бренда. Система под Ozon, Wildberries и собственный лендинг. Кейс под NDA до даты лонча.",
+    ticker: "OZON · WB · LANDING",
+    status: "nda",
+  },
+];
+
+export const PORTFOLIO_CATEGORIES: ("Все" | PortfolioCategory)[] = [
+  "Все",
+  "Аватарки",
+  "Баннеры",
+  "Логотипы",
+  "Превью",
+  "Карточки товаров",
+];
+
+export const SERVICES = [
+  {
+    n: "01",
+    category: "Аватарки",
+    title: "Аватарки, которые читаются с первого взгляда",
+    body: "Для FunPay, YouTube, Discord и личных брендов. Сильный силуэт, читаемый свет и характер, который не теряется даже в маленьком круге.",
+    formats: ["PFP 1:1", "Обложка", "Стикер-пак"],
+    href: "https://funpay.com/lots/offer?id=68060320",
+  },
+  {
+    n: "02",
+    category: "Баннеры",
+    title: "Баннеры, которые выглядят дороже лота",
+    body: "Обложки для сообществ, шапки YouTube, Twitch и VK. Делаю так, чтобы даже дешёвый лот визуально воспринимался сильнее конкурентов.",
+    formats: ["2560×1440", "1920×1080", "Social pack"],
+    href: "https://funpay.com/lots/offer?id=68063143",
+  },
+  {
+    n: "03",
+    category: "Логотипы",
+    title: "Логотипы и логопаки под бренд",
+    body: "Знак, wordmark, монохром, светлая и тёмная версия. Не просто красиво, а так, чтобы логотип жил в аватаре, баннере и на лендинге без потерь.",
+    formats: ["SVG", "PNG", "Brand-kit"],
+    href: "https://funpay.com/lots/offer?id=68059061",
+  },
+  {
+    n: "04",
+    category: "Превью",
+    title: "Превью, которые тащат клик",
+    body: "YouTube-превью и cover-art, где заголовок, персонаж и контраст собраны под просмотр, а не под абстрактное «красиво». Именно это поднимает CTR.",
+    formats: ["1280×720", "Серия", "A/B-варианты"],
+    href: "https://funpay.com/lots/offer?id=68063230",
+  },
+  {
+    n: "05",
+    category: "Карточки товаров",
+    title: "Карточки, которые продают даже без скидки",
+    body: "Для маркетплейсов и FunPay. Сильная подача, правильная иерархия и визуал, из-за которого покупатель дольше смотрит именно ваш лот.",
+    formats: ["900×1200", "Инфографика", "6 слайдов"],
+    href: "https://funpay.com/lots/offer?id=66156133",
+  },
+  {
+    n: "06",
+    category: "Лендинги",
+    title: "Лендинги на заказ",
+    body: "Посадочные страницы под запуск продукта, лот или личный бренд. Чистая структура, дорогой визуал, сборка под конверсию. Срок — 3–5 рабочих дней.",
+    formats: ["Desktop + mobile", "Tilda / HTML", "3–5 дней"],
+    href: "https://funpay.com/lots/offer?id=69411021",
+  },
+  {
+    n: "07",
+    category: "Telegram-боты",
+    title: "Telegram-боты под задачу",
+    body: "Боты для приёма заявок, продаж, мини-CRM, авто-ответов и FunPay-уведомлений. Чистый код, простой деплой, понятная админка. Срок — 3–5 рабочих дней.",
+    formats: ["Python / aiogram", "Webhook", "3–5 дней"],
+    href: "https://funpay.com/lots/offer?id=69410394",
+  },
+] as const;
+
+export const PROCESS_STEPS = [
+  {
+    n: "00",
+    label: "AI-брифинг 24/7",
+    title: "Бриф занимает 3–5 минут. В любой день, в любой час.",
+    body: "AI-ассистент быстро собирает вводные, чтобы я не тратил ваше время на хаотичную переписку. Задача заходит в работу уже с понятной целью, сроком и форматом.",
+    deliverables: ["3–5 минут", "Сбор вводных", "Старт в работу"],
+    sla: "3–5 минут · круглосуточно",
+    highlight: true,
+  },
+  {
+    n: "01",
+    label: "Бриф",
+    title: "Слушаю задачу, а не только хотелку.",
+    body: "Фиксирую аудиторию, площадку, эмоцию и метрику, по которой работа считается успешной. Без этого дизайн становится украшением.",
+    deliverables: ["Аудитория", "Площадка", "Метрика"],
+    sla: "~10 минут",
+    highlight: false,
+  },
+  {
+    n: "02",
+    label: "Концепт",
+    title: "Один концепт. Внятный. Без воды.",
+    body: "Не «3 варианта на выбор», а одно решение с обоснованием. Если оно не попало — правки именно там, где нужно, а не пересборка с нуля.",
+    deliverables: ["Концепт", "Референсы", "Обоснование"],
+    sla: "~30 минут",
+    highlight: false,
+  },
+  {
+    n: "03",
+    label: "Сборка",
+    title: "Ручная сборка. Пиксельная точность.",
+    body: "Типографика, сетка, свет, цвет, экспорты. Та самая разница между «средним» и «дорогим», которую не объяснить словами, но заметно с первого взгляда.",
+    deliverables: ["Все форматы", "Исходники", "Production-ready"],
+    sla: "статика · ~3 часа",
+    highlight: false,
+  },
+  {
+    n: "04",
+    label: "Правки",
+    title: "Правки без споров и без обид.",
+    body: "Один круг правок включён. Я не торгуюсь за каждый сдвиг — задача в том, чтобы клиент остался с работой, которую не стыдно показать.",
+    deliverables: ["1 круг правок", "Версионирование", "Финальная сборка"],
+    sla: "~30 минут · 1 круг",
+    highlight: false,
+  },
+  {
+    n: "05",
+    label: "Сдача",
+    title: "Сдача через FunPay. Гарантия площадки.",
+    body: "Сделка проходит через FunPay — деньги списываются только после того, как вы подтвердили работу. Это не я обещаю — это правила площадки.",
+    deliverables: ["FunPay-сделка", "Все исходники", "Гайдлайн"],
+    sla: "гарантия FunPay",
+    highlight: false,
+  },
+] as const;
+
+// Реальные отзывы с FunPay-профиля 9159608. Имена покупателей FunPay не
+// раскрывает публично, поэтому идут как «Покупатель FunPay» с категорией
+// заказа и периодом.
+export const TESTIMONIALS = [
+  {
+    quote:
+      "Это просто шедевр! Невероятное чувство стиля, идеальная композиция и просто магическая атмосфера в кадре. Каждой деталью хочется любоваться бесконечно. Настоящее воплощение красоты и грации. Браво, это уровень топ-глянца!",
+    name: "Покупатель FunPay",
+    role: "Photoshop · в этом месяце",
+    rating: 5,
+  },
+  {
+    quote:
+      "сделал все по максимальной красоте, не работа а шедевр! не думал что получится так круто",
+    name: "Покупатель FunPay",
+    role: "Photoshop · в этом месяце",
+    rating: 5,
+  },
+  {
+    quote: "лучший дизайнер. покупайте только у него!",
+    name: "Покупатель FunPay",
+    role: "Photoshop · в этом месяце",
+    rating: 5,
+  },
+  {
+    quote: "Очень классно получилось, ожидание того стоило",
+    name: "Покупатель FunPay",
+    role: "Photoshop · месяц назад",
+    rating: 5,
+  },
+  {
+    quote: "Логотип зачётный, спасибо)",
+    name: "Покупатель FunPay",
+    role: "Photoshop · в этом месяце",
+    rating: 5,
+  },
+  {
+    quote: "ВЕЛИКОЛЕПНАЯ АВАТАРКА",
+    name: "Покупатель FunPay",
+    role: "Аватарка · год назад",
+    rating: 5,
+  },
+];
+
+export const WHY_POINTS = [
+  {
+    title: "Репутация на одной площадке",
+    body:
+      "5.0 рейтинг и 750+ отзывов на FunPay. Не «обещаю», а уже доказал.",
+  },
+  {
+    title: "Скорость без потери качества",
+    body:
+      "Статика — около 4 часов в среднем, максимум сутки. Лендинги и боты — 3–5 рабочих дней.",
+  },
+  {
+    title: "Визуал выше площадки",
+    body:
+      "На фоне типичных лотов FunPay работа выглядит на класс выше — и часто дороже своей цены.",
+  },
+  {
+    title: "Выгодный вход",
+    body:
+      "Часть лотов от ₽49 — пока набираю портфолио. Низкая цена с уже сильным визуалом.",
+  },
+];
+
+export const COMPARISON = {
+  cheap: {
+    label: "Обычный лот на FunPay · ₽100–200",
+    points: [
+      "Визуал на уровне шаблона",
+      "Сроки плавающие",
+      "Работа выглядит дёшево",
+      "Никакой системы и стиля",
+    ],
+  },
+  premium: {
+    label: "Rcode11 на FunPay · от ₽49",
+    points: [
+      "Визуал выше среднего по площадке",
+      "Статика ~4 часа, лендинги и боты 3–5 дней",
+      "5.0 рейтинг, 750+ отзывов",
+      "AI-брифинг за 3–5 минут",
+    ],
+  },
+} as const;
+
+export const STATS = [
+  { value: 1000, suffix: "+", label: "Выполненных заказов", caption: "живой аккаунт без обнуления" },
+  { value: 750, suffix: "+", label: "Отзывов на FunPay", caption: "и все на одной площадке" },
+  { value: 5, suffix: ".0", label: "Средний рейтинг", caption: "актуально на FunPay" },
+  { value: 4, suffix: "ч", label: "Средний срок статики", caption: "максимум сутки даже с очередью" },
+];
+
+export const AI_BRIEF = {
+  badge: "AI-брифинг · 24/7",
+  title: "Бриф занимает 3–5 минут. В любое время.",
+  body: "AI-ассистент Rcode11 быстро собирает задачу, чтобы заказ не застревал в переписке и сразу уходил в работу.",
+  cta: "Открыть бриф",
+} as const;
